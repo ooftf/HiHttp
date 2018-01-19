@@ -20,8 +20,12 @@ import javax.net.ssl.*
 /**
  * Created by master on 2017/8/15 0015.
  */
-open class ServiceGenerator(private var baseUrl: String, var ignoreSSL: Boolean = false, headers: MutableMap<String, String>, vararg interceptor: Interceptor) {
-    private val logInterceptor: LoggingInterceptor by lazy {
+open class ServiceGenerator() {
+    private var baseUrl: String = ""
+    var ignoreSSL: Boolean = false
+    val headers: MutableMap<String, String> = HashMap()
+    val interceptors = ArrayList<Interceptor>()
+    private fun createLogInterceptror(): LoggingInterceptor {
         val response = LoggingInterceptor.Builder()
                 .loggable(BuildConfig.DEBUG)
                 .setLevel(Level.BASIC)
@@ -31,34 +35,10 @@ open class ServiceGenerator(private var baseUrl: String, var ignoreSSL: Boolean 
         headers.forEach {
             response.addHeader(it.key, it.value)
         }
-        response.build()
+        return response.build()
     }
-    private val okHttpClient: OkHttpClient by lazy {
-        var builder = OkHttpClient.Builder()
-                .addInterceptor(logInterceptor)
-                .addNetworkInterceptor(StethoInterceptor())
-                .cookieJar(KeepCookieJar())
-                .connectTimeout(300, TimeUnit.SECONDS)
-                .readTimeout(300, TimeUnit.SECONDS)
-                .writeTimeout(300, TimeUnit.SECONDS)
-        if (ignoreSSL) {
-            builder.hostnameVerifier(ignoreHostnameVerifier)
-                    .sslSocketFactory(ignoreSSLSocketFactory)
-        }
-        interceptor.forEach {
-            builder.addInterceptor(it)
-        }
-        builder.build()
-    }
-    private val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-                .client(okHttpClient)
-                .build()
-    }
-    private val ignoreSSLSocketFactory: SSLSocketFactory by lazy {
+
+    private fun createIgnoreSSLSocketFactory(): SSLSocketFactory {
         val ssl = SSLContext.getInstance("SSL")
         val xtm = object : X509TrustManager {
             override fun checkClientTrusted(p0: Array<out X509Certificate>?, p1: String?) {
@@ -74,15 +54,47 @@ open class ServiceGenerator(private var baseUrl: String, var ignoreSSL: Boolean 
             }
         }
         ssl.init(null, arrayOf<TrustManager>(xtm), SecureRandom())
-        ssl.socketFactory
+        return ssl.socketFactory
     }
-    private val ignoreHostnameVerifier: HostnameVerifier by lazy {
-        object : HostnameVerifier {
-            override fun verify(p0: String?, p1: SSLSession?): Boolean {
-                return true
-            }
+
+    private fun createIgnoreHostnameVerifier() = object : HostnameVerifier {
+        override fun verify(p0: String?, p1: SSLSession?): Boolean {
+            return true
         }
     }
 
-    fun <T> createService(cla: Class<T>) = retrofit.create(cla)
+    private fun createOkHttpClient(): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+                .addInterceptor(createLogInterceptror())
+                .addNetworkInterceptor(StethoInterceptor())
+                .cookieJar(KeepCookieJar())
+                .connectTimeout(300, TimeUnit.SECONDS)
+                .readTimeout(300, TimeUnit.SECONDS)
+                .writeTimeout(300, TimeUnit.SECONDS)
+        if (ignoreSSL) {
+            builder.hostnameVerifier(createIgnoreHostnameVerifier())
+                    .sslSocketFactory(createIgnoreSSLSocketFactory())
+        }
+        interceptors.forEach {
+            builder.addInterceptor(it)
+        }
+        return builder.build()
+    }
+
+    private fun createRetrofit() =
+            Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                    .client(createOkHttpClient())
+                    .build()
+
+    fun addHeader(key: String, value: String) {
+        headers.put(key, value)
+    }
+
+    fun addInterceptors(interceptor: Interceptor) {
+        interceptors.add(interceptor)
+    }
+    fun <T> createService(cla: Class<T>) = createRetrofit().create(cla)
 }
