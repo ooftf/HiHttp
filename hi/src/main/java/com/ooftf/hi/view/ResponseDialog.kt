@@ -1,4 +1,4 @@
-package com.dks.master.masterretrofit.View
+package com.ooftf.hi.view
 
 import android.app.Activity
 import android.app.Dialog
@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
-import com.dks.master.masterretrofit.View.ResponseViewInterface.Companion.STATE_ERROR
-import com.dks.master.masterretrofit.View.ResponseViewInterface.Companion.STATE_RESPONSE
-import com.dks.master.masterretrofit.View.ResponseViewInterface.Companion.STATE_START
+import com.ooftf.hi.view.ResponseViewInterface.Companion.STATE_ERROR
+import com.ooftf.hi.view.ResponseViewInterface.Companion.STATE_RESPONSE
+import com.ooftf.hi.view.ResponseViewInterface.Companion.STATE_START
 import com.ooftf.hi.R
 
 /**

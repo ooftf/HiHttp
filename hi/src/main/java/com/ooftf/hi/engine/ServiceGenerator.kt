@@ -1,10 +1,9 @@
-package com.tf.oof.meacalculatorl.net
+package com.ooftf.hi.engine
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import com.ooftf.hi.BuildConfig
-import com.ooftf.hi.engine.KeepCookieJar
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

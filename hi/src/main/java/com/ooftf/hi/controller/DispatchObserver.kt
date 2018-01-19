@@ -1,5 +1,5 @@
 package com.ooftf.hi.controller
-import com.dks.master.masterretrofit.View.ResponseViewInterface
+import com.ooftf.hi.view.ResponseViewInterface
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 /**
