@@ -21,10 +21,10 @@ import javax.net.ssl.*
  * Created by master on 2017/8/15 0015.
  */
 open class ServiceGenerator() {
-    private var baseUrl: String = ""
+    var baseUrl: String = ""
     var ignoreSSL: Boolean = false
-    val headers: MutableMap<String, String> = HashMap()
-    val interceptors = ArrayList<Interceptor>()
+    private val headers: MutableMap<String, String> = HashMap()
+    private val interceptors = ArrayList<Interceptor>()
     private fun createLogInterceptror(): LoggingInterceptor {
         val response = LoggingInterceptor.Builder()
                 .loggable(BuildConfig.DEBUG)
