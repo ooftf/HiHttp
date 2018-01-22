@@ -23,11 +23,12 @@ import javax.net.ssl.*
 open class ServiceGenerator() {
     var baseUrl: String = ""
     var ignoreSSL: Boolean = false
+    var loggable:Boolean = false
     private val headers: MutableMap<String, String> = HashMap()
     private val interceptors = ArrayList<Interceptor>()
     private fun createLogInterceptror(): LoggingInterceptor {
         val response = LoggingInterceptor.Builder()
-                .loggable(BuildConfig.DEBUG)
+                .loggable(loggable)
                 .setLevel(Level.BASIC)
                 .log(Platform.INFO)
                 .request("Request")
@@ -77,7 +78,7 @@ open class ServiceGenerator() {
             builder.addInterceptor(it)
         }
         builder.addInterceptor(createLogInterceptror())
-                .addNetworkInterceptor(StethoInterceptor())
+               .addNetworkInterceptor(StethoInterceptor())
         return builder.build()
     }
 

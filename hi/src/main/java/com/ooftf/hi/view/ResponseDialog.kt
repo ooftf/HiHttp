@@ -3,6 +3,7 @@ package com.ooftf.hi.view
 import android.app.Activity
 import android.app.Dialog
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -11,15 +12,15 @@ import com.ooftf.hi.view.ResponseViewInterface.Companion.STATE_ERROR
 import com.ooftf.hi.view.ResponseViewInterface.Companion.STATE_RESPONSE
 import com.ooftf.hi.view.ResponseViewInterface.Companion.STATE_START
 import com.ooftf.hi.R
+import kotlinx.android.synthetic.main.dialog_response.*
 
 /**
  * 适合独立的请求防止多次点击，比如点击按钮的请求
  * Created by master on 2017/10/11 0011.
  */
-open class ResponseDialog : Dialog, ResponseViewInterface {
+class ResponseDialog(var activity: Activity,var text:String = "加载中") : Dialog(activity, R.style.DialogTheme_Empty), ResponseViewInterface {
 
 
-    var activity: Activity
     /**
      * 为了可是使一个ResponseDialog可以同时处理多个网络请求
      * 添加counter计数器，但只对最后的网络做相应处理
@@ -27,21 +28,21 @@ open class ResponseDialog : Dialog, ResponseViewInterface {
     var counter = 0
     var state = STATE_START
 
-    constructor(activity: Activity) : super(activity, R.style.DialogTheme_Empty) {
-        this.activity = activity
+    var progressBar: ProgressBar
+    var imageError: ImageView
+    init {
         val view = LayoutInflater.from(activity).inflate(R.layout.dialog_response, null)
         setContentView(view)
         progressBar = view.findViewById(R.id.progressBar)
         imageError = view.findViewById(R.id.imageError)
+        setCanceledOnTouchOutside(false)
     }
-
-    var progressBar: ProgressBar
-    var imageError: ImageView
-    override fun onStart() {
+    override fun onRequest() {
         counter++
         state = STATE_START
         imageError.visibility = View.GONE
         progressBar.visibility = View.VISIBLE
+        textView.setText(text)
         show()
     }
 
@@ -50,16 +51,19 @@ open class ResponseDialog : Dialog, ResponseViewInterface {
     }
 
     override fun onError() {
+        Log.e("onError","onError")
         state = STATE_ERROR
-
+        onComplete()
     }
 
     override fun onResponse() {
+        Log.e("onResponse","onResponse")
         state = STATE_RESPONSE
         dismiss()
     }
 
     override fun onComplete() {
+        Log.e("onComplete","onComplete")
         counter--
         if (counter > 0) return
         when (state) {
@@ -73,9 +77,12 @@ open class ResponseDialog : Dialog, ResponseViewInterface {
     private fun errorEnd() {
         imageError.visibility = View.VISIBLE
         progressBar.visibility = View.GONE
+        textView.setText("网络异常")
         handler.postDelayed({
             if (activity.isFinishing) return@postDelayed
             dismiss()
         }, 1000)
     }
+
+
 }

@@ -1,6 +1,8 @@
 package com.ooftf.hi.view
 
+import android.annotation.TargetApi
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +23,7 @@ open class ResponseLayout : FrameLayout, ResponseViewInterface {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     lateinit var inflater: LayoutInflater
@@ -35,7 +38,7 @@ open class ResponseLayout : FrameLayout, ResponseViewInterface {
         invisibleAll()
     }
 
-    override fun onStart() {
+    override fun onRequest() {
         counter++
         state = ResponseViewInterface.STATE_START
         invisibleAll()
@@ -44,6 +47,7 @@ open class ResponseLayout : FrameLayout, ResponseViewInterface {
 
     override fun onError() {
         state = ResponseViewInterface.STATE_ERROR
+        onComplete()
     }
 
     override fun onResponse() {

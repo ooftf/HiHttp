@@ -4,7 +4,7 @@ package com.ooftf.hi.view
  * Created by master on 2017/10/11 0011.
  */
 interface ResponseViewInterface {
-    fun onStart()
+    fun onRequest()
     fun onError()
     fun onResponse()
     fun onComplete()
