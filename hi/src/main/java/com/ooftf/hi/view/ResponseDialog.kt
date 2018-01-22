@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.dialog_response.*
  * 适合独立的请求防止多次点击，比如点击按钮的请求
  * Created by master on 2017/10/11 0011.
  */
-class ResponseDialog(var activity: Activity,var text:String = "加载中") : Dialog(activity, R.style.DialogTheme_Empty), ResponseViewInterface {
+open class ResponseDialog(var activity: Activity,var text:String = "加载中") : Dialog(activity, R.style.DialogTheme_Empty), ResponseViewInterface {
 
 
     /**
