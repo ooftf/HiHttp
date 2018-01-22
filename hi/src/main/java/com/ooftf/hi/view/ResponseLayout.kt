@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import com.ooftf.hi.R
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.layout_error.view.*
 import kotlinx.android.synthetic.main.layout_start.view.*
 
@@ -16,8 +17,7 @@ import kotlinx.android.synthetic.main.layout_start.view.*
  *
  * Created by master on 2017/10/11 0011.
  */
-open class ResponseLayout : FrameLayout, ResponseViewInterface {
-
+open class ResponseLayout : FrameLayout, ResponseViewInterface<Any> {
     var counter = 0
     var state = ResponseViewInterface.STATE_START
     constructor(context: Context?) : super(context)
@@ -38,7 +38,7 @@ open class ResponseLayout : FrameLayout, ResponseViewInterface {
         invisibleAll()
     }
 
-    override fun onRequest() {
+    override fun onRequest(d: Disposable) {
         counter++
         state = ResponseViewInterface.STATE_START
         invisibleAll()
@@ -50,7 +50,7 @@ open class ResponseLayout : FrameLayout, ResponseViewInterface {
         onComplete()
     }
 
-    override fun onResponse() {
+    override fun onResponse(t: Any) {
         state = ResponseViewInterface.STATE_RESPONSE
     }
 

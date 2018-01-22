@@ -1,4 +1,4 @@
-package com.ooftf.hihttps
+package com.ooftf.hihttp
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

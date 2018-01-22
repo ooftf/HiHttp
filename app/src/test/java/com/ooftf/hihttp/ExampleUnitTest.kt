@@ -1,4 +1,4 @@
-package com.ooftf.hihttps
+package com.ooftf.hihttp
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.ooftf.hihttps
+package com.ooftf.hihttp
 import retrofit2.http.*
 import io.reactivex.Observable
 /**

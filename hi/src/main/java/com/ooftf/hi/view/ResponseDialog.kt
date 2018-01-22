@@ -12,13 +12,15 @@ import com.ooftf.hi.view.ResponseViewInterface.Companion.STATE_ERROR
 import com.ooftf.hi.view.ResponseViewInterface.Companion.STATE_RESPONSE
 import com.ooftf.hi.view.ResponseViewInterface.Companion.STATE_START
 import com.ooftf.hi.R
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_response.*
 
 /**
  * 适合独立的请求防止多次点击，比如点击按钮的请求
  * Created by master on 2017/10/11 0011.
  */
-open class ResponseDialog(var activity: Activity,var text:String = "加载中") : Dialog(activity, R.style.DialogTheme_Empty), ResponseViewInterface {
+open class ResponseDialog(var activity: Activity,var text:String = "加载中") : Dialog(activity, R.style.DialogTheme_Empty), ResponseViewInterface<Any> {
+
 
 
     /**
@@ -37,7 +39,7 @@ open class ResponseDialog(var activity: Activity,var text:String = "加载中") 
         imageError = view.findViewById(R.id.imageError)
         setCanceledOnTouchOutside(false)
     }
-    override fun onRequest() {
+    override fun onRequest(d: Disposable) {
         counter++
         state = STATE_START
         imageError.visibility = View.GONE
@@ -55,7 +57,7 @@ open class ResponseDialog(var activity: Activity,var text:String = "加载中") 
         onComplete()
     }
 
-    override fun onResponse() {
+    override fun onResponse(t: Any) {
         state = STATE_RESPONSE
         dismiss()
     }

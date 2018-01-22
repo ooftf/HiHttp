@@ -1,10 +1,9 @@
-package com.ooftf.hihttps
+package com.ooftf.hihttp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.ooftf.hi.controller.DispatchObserver
 import com.ooftf.hi.view.ResponseDialog
-import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
