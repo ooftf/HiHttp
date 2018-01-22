@@ -51,19 +51,16 @@ class ResponseDialog(var activity: Activity,var text:String = "加载中") : Dia
     }
 
     override fun onError() {
-        Log.e("onError","onError")
         state = STATE_ERROR
         onComplete()
     }
 
     override fun onResponse() {
-        Log.e("onResponse","onResponse")
         state = STATE_RESPONSE
         dismiss()
     }
 
     override fun onComplete() {
-        Log.e("onComplete","onComplete")
         counter--
         if (counter > 0) return
         when (state) {
