@@ -1,6 +1,7 @@
 package com.ooftf.hihttp
 
 import android.annotation.TargetApi
+import android.app.Activity
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Build
@@ -12,12 +13,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
-import com.master.kit.R
-import com.master.kit.bean.PicCaptchaBean
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import tf.oof.com.service.base.BaseActivity
-
 /**
  * Created by master on 2017/10/20 0020.
  */
@@ -106,13 +104,13 @@ class PicCaptchaLayout : RelativeLayout, IEResponse<PicCaptchaBean> {
 
     private var pic: ImageView
     private var progressBar: ProgressBar
-    private var activity: BaseActivity
+    private var activity: Activity
 
     init {
         LayoutInflater.from(context).inflate(R.layout.layout_pic_captcha, this)
         pic = findViewById(R.id.imageView)
         progressBar = findViewById(R.id.progressBar)
-        activity = context as BaseActivity
+        activity = context as Activity
         pic.setOnClickListener { picCaptchaRequest() }
     }
     var uuid :String? = null

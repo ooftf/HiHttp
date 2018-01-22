@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.layout_start.view.*
  *
  * Created by master on 2017/10/11 0011.
  */
-open class ResponseLayout : FrameLayout, ResponseViewInterface<Any> {
+open class ResponseLayout<T> : FrameLayout, ResponseViewInterface<T> {
     var counter = 0
     var state = ResponseViewInterface.STATE_START
     constructor(context: Context?) : super(context)
@@ -50,12 +50,12 @@ open class ResponseLayout : FrameLayout, ResponseViewInterface<Any> {
         onComplete()
     }
 
-    override fun onResponse(t: Any) {
+    override fun onResponse(t: T) {
         state = ResponseViewInterface.STATE_RESPONSE
     }
 
     private fun invisibleAll() {
-        (0..childCount - 1).forEach {
+        (0 until childCount).forEach {
             getChildAt(it).visibility = View.INVISIBLE
         }
     }
@@ -64,7 +64,7 @@ open class ResponseLayout : FrameLayout, ResponseViewInterface<Any> {
         counter--
         if (counter > 0) return
         when (state) {
-            ResponseViewInterface.STATE_ERROR -> {
+            ResponseViewInterface.STATE_RESPONSE -> {
                 invisibleAll()
                 success?.visibility = View.VISIBLE
             }

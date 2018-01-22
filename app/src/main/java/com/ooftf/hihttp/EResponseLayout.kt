@@ -9,10 +9,7 @@ import com.ooftf.hi.view.ResponseLayout
 /**
  * Created by master on 2017/10/12 0012.
  */
-class EResponseLayout : ResponseLayout, IEResponse<in BaseBean> {
-    override fun onResponse(t: BaseBean) {
-        super.onResponse(t)
-    }
+class EResponseLayout : ResponseLayout<BaseBean>, IEResponse<BaseBean> {
     val activity: Activity by lazy {
         if (context is Activity) {
             context as Activity

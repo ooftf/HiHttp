@@ -5,11 +5,8 @@ import com.ooftf.hi.view.ResponseDialog
 /**
  * Created by master on 2017/10/12 0012.
  */
-class EResponseDialog(activity: Activity,text:String="加载中"): ResponseDialog(activity,text),IEResponse<BaseBean> {
+class EResponseDialog(activity: Activity,text:String="加载中"): ResponseDialog<BaseBean>(activity,text),IEResponse<BaseBean> {
 
-    override fun onResponse(t: BaseBean) {
-        super.onResponse(t)
-    }
     override fun onResponseSuccess(bean: BaseBean) {
 
     }

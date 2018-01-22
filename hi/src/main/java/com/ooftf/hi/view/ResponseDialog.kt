@@ -20,7 +20,7 @@ import java.util.*
  * 适合独立的请求防止多次点击，比如点击按钮的请求
  * Created by master on 2017/10/11 0011.
  */
-open class ResponseDialog(var activity: Activity,var text:String = "加载中") : Dialog(activity, R.style.DialogTheme_Empty), ResponseViewInterface<Any> {
+open class ResponseDialog<in T>(var activity: Activity, var text:String = "加载中") : Dialog(activity, R.style.DialogTheme_Empty), ResponseViewInterface<T> {
 
 
 
@@ -58,7 +58,7 @@ open class ResponseDialog(var activity: Activity,var text:String = "加载中") 
         onComplete()
     }
 
-    override fun onResponse(t: Any) {
+    override fun onResponse(t: T) {
         state = STATE_RESPONSE
         dismiss()
     }
