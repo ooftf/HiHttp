@@ -14,6 +14,7 @@ import com.ooftf.hi.view.ResponseViewInterface.Companion.STATE_START
 import com.ooftf.hi.R
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_response.*
+import java.util.*
 
 /**
  * 适合独立的请求防止多次点击，比如点击按钮的请求
