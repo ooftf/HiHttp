@@ -65,8 +65,6 @@ open class ServiceGenerator() {
 
     private fun createOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
-                .addInterceptor(createLogInterceptror())
-                .addNetworkInterceptor(StethoInterceptor())
                 .cookieJar(KeepCookieJar())
                 .connectTimeout(300, TimeUnit.SECONDS)
                 .readTimeout(300, TimeUnit.SECONDS)
@@ -78,6 +76,8 @@ open class ServiceGenerator() {
         interceptors.forEach {
             builder.addInterceptor(it)
         }
+        builder.addInterceptor(createLogInterceptror())
+                .addNetworkInterceptor(StethoInterceptor())
         return builder.build()
     }
 
@@ -96,5 +96,6 @@ open class ServiceGenerator() {
     fun addInterceptors(interceptor: Interceptor) {
         interceptors.add(interceptor)
     }
+
     fun <T> createService(cla: Class<T>) = createRetrofit().create(cla)
 }
