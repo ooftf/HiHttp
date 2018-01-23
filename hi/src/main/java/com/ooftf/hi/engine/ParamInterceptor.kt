@@ -65,10 +65,5 @@ abstract class ParamInterceptor : Interceptor {
         }
         return builder.build()
     }
-
     abstract fun paramTransform(oldParams: MutableMap<String, String>): MutableMap<String, String>
-
-    companion object {
-        private val TAG = ParamInterceptor::class.java.simpleName
-    }
 }
