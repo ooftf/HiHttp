@@ -1,5 +1,6 @@
 package com.ooftf.hihttp
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.ooftf.hi.engine.ServiceGenerator
 
 
@@ -12,6 +13,9 @@ object ServiceHolder {
         generator.baseUrl = "https://api.etongdai.com/"
         generator.ignoreSSL = true
         generator.loggable = true
+        generator.buildOkhttp = {
+            it.addNetworkInterceptor(StethoInterceptor())
+        }
         generator.createService(IEService::class.java)
     }
 }

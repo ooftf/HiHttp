@@ -24,9 +24,9 @@ open class ServiceGenerator() {
     var baseUrl: String = ""
     var ignoreSSL: Boolean = false
     var loggable:Boolean = false
+    var buildOkhttp:((OkHttpClient.Builder)->Unit)?=null
     private val headers: MutableMap<String, String> = HashMap()
-    private val interceptors = ArrayList<Interceptor>()
-    private fun createLogInterceptror(): LoggingInterceptor {
+    private fun createLogInterceptor(): LoggingInterceptor {
         val response = LoggingInterceptor.Builder()
                 .loggable(loggable)
                 .setLevel(Level.BASIC)
@@ -74,11 +74,8 @@ open class ServiceGenerator() {
             builder.hostnameVerifier(createIgnoreHostnameVerifier())
                     .sslSocketFactory(createIgnoreSSLSocketFactory())
         }
-        interceptors.forEach {
-            builder.addInterceptor(it)
-        }
-        builder.addInterceptor(createLogInterceptror())
-               .addNetworkInterceptor(StethoInterceptor())
+        buildOkhttp?.invoke(builder)
+        builder.addInterceptor(createLogInterceptor())
         return builder.build()
     }
 
@@ -93,10 +90,5 @@ open class ServiceGenerator() {
     fun addHeader(key: String, value: String) {
         headers.put(key, value)
     }
-
-    fun addInterceptors(interceptor: Interceptor) {
-        interceptors.add(interceptor)
-    }
-
     fun <T> createService(cla: Class<T>) = createRetrofit().create(cla)
 }

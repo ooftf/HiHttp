@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.layout_start.view.*
  *
  * Created by master on 2017/10/11 0011.
  */
-open class ResponseLayout<T> : FrameLayout, ResponseViewInterface<T> {
+open class ResponseLayout<in T> : FrameLayout, ResponseViewInterface<T> {
     var counter = 0
     var state = ResponseViewInterface.STATE_START
     constructor(context: Context?) : super(context)

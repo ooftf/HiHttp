@@ -5,7 +5,7 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by master on 2017/8/18 0018.
  */
-abstract class DispatchObserver<T>(private var responseView: ResponseViewInterface<in T>?) : Observer<T> {
+abstract class DispatchObserver<T>(private var responseView: ResponseViewInterface<T>?) : Observer<T> {
     override fun onSubscribe(d: Disposable) {
         responseView?.onRequest(d)
     }
