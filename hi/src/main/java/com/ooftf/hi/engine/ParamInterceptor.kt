@@ -1,18 +1,15 @@
 package com.ooftf.hi.engine
 
 import okhttp3.FormBody
+import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Response
-import java.io.IOException
-import java.util.*
 
 /**
  * Created by master on 2017/3/7.
  */
 
-abstract class FormParamInterceptor : Interceptor {
-
-    @Throws(IOException::class)
+abstract class ParamInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val body = request.body()
@@ -27,8 +24,37 @@ abstract class FormParamInterceptor : Interceptor {
             val newFormBody = buildNewFormBody(oldParams)
             val newRequest = request.newBuilder().method(request.method(), newFormBody).build()
             return chain.proceed(newRequest)
+        } else if (request.method().equals("GET", true)) {
+            request.url().queryParameterNames()
+            var params = getUrlParams(request.url())
+            params = paramTransform(params)
+            val newUrl = buildWithNewParams(request.url(), params)
+            val newRequest = request.newBuilder().url(newUrl).build()
+            return chain.proceed(newRequest)
         }
         return chain.proceed(request)
+    }
+
+    private fun buildWithNewParams(url: HttpUrl, params: MutableMap<String, String>): HttpUrl {
+        val newBuilder = url.newBuilder()
+        url.queryParameterNames().forEach {
+            newBuilder.removeAllQueryParameters(it)
+        }
+        params.forEach {
+            newBuilder.addQueryParameter(it.key, it.value)
+        }
+        return newBuilder.build()
+    }
+
+    private fun getUrlParams(url: HttpUrl): MutableMap<String, String> {
+        var result = HashMap<String, String>()
+        url.queryParameterNames().forEach {
+            var value = url.queryParameter(it)
+            if (value != null) {
+                result.put(it, value)
+            }
+        }
+        return result
     }
 
     internal fun buildNewFormBody(oldParams: MutableMap<String, String>): FormBody {
@@ -43,6 +69,6 @@ abstract class FormParamInterceptor : Interceptor {
     abstract fun paramTransform(oldParams: MutableMap<String, String>): MutableMap<String, String>
 
     companion object {
-        private val TAG = FormParamInterceptor::class.java.simpleName
+        private val TAG = ParamInterceptor::class.java.simpleName
     }
 }

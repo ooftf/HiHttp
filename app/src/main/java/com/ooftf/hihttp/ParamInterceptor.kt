@@ -1,12 +1,12 @@
 package com.ooftf.hihttp
 
-import com.ooftf.hi.engine.FormParamInterceptor
+import com.ooftf.hi.engine.ParamInterceptor
 
 /**
  * Created by master on 2017/3/7.
  */
 
-class ParamInterceptor : FormParamInterceptor() {
+class ParamInterceptor : ParamInterceptor() {
     override fun paramTransform(oldParams: MutableMap<String, String>): MutableMap<String, String> {
         oldParams.put("terminalType", "3")
         oldParams.put("appVersion", "2.5.1")
