@@ -46,6 +46,9 @@ open class ResponseDialog<in T>(var activity: Activity, var text:String = "åŠ è½
         imageError.visibility = View.GONE
         progressBar.visibility = View.VISIBLE
         textView.setText(text)
+        setOnDismissListener {
+            d.dispose()
+        }
         show()
     }
 
