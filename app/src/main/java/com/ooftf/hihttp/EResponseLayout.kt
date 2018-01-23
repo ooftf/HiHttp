@@ -4,12 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
-import com.ooftf.hi.view.ResponseLayout
+import com.ooftf.hi.view.HiResponseLayout
 
 /**
  * Created by master on 2017/10/12 0012.
  */
-class EResponseLayout : ResponseLayout<BaseBean>, IEResponse<BaseBean> {
+class EResponseLayout : HiResponseLayout<BaseBean>, IEResponse<BaseBean> {
     val activity: Activity by lazy {
         if (context is Activity) {
             context as Activity

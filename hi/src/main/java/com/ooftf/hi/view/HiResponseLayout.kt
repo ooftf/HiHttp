@@ -17,9 +17,9 @@ import kotlinx.android.synthetic.main.layout_start.view.*
  *
  * Created by master on 2017/10/11 0011.
  */
-open class ResponseLayout<in T> : FrameLayout, ResponseViewInterface<T> {
+open class HiResponseLayout<in T> : FrameLayout, HiResponseView<T> {
     var counter = 0
-    var state = ResponseViewInterface.STATE_START
+    var state = HiResponseView.STATE_START
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -40,18 +40,18 @@ open class ResponseLayout<in T> : FrameLayout, ResponseViewInterface<T> {
 
     override fun onRequest(d: Disposable) {
         counter++
-        state = ResponseViewInterface.STATE_START
+        state = HiResponseView.STATE_START
         invisibleAll()
         start_container.visibility = View.VISIBLE
     }
 
     override fun onError(t:Throwable) {
-        state = ResponseViewInterface.STATE_ERROR
+        state = HiResponseView.STATE_ERROR
         onComplete()
     }
 
     override fun onResponse(t: T) {
-        state = ResponseViewInterface.STATE_RESPONSE
+        state = HiResponseView.STATE_RESPONSE
     }
 
     private fun invisibleAll() {
@@ -64,11 +64,11 @@ open class ResponseLayout<in T> : FrameLayout, ResponseViewInterface<T> {
         counter--
         if (counter > 0) return
         when (state) {
-            ResponseViewInterface.STATE_RESPONSE -> {
+            HiResponseView.STATE_RESPONSE -> {
                 invisibleAll()
                 success?.visibility = View.VISIBLE
             }
-            ResponseViewInterface.STATE_ERROR -> {
+            HiResponseView.STATE_ERROR -> {
                 invisibleAll()
                 error_container.visibility = View.VISIBLE
             }

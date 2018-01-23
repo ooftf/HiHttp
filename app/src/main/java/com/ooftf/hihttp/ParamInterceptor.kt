@@ -1,4 +1,6 @@
-package com.ooftf.hi.engine
+package com.ooftf.hihttp
+
+import com.ooftf.hi.engine.FormParamInterceptor
 
 /**
  * Created by master on 2017/3/7.

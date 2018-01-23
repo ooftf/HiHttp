@@ -1,11 +1,11 @@
 package com.ooftf.hi.controller
-import com.ooftf.hi.view.ResponseViewInterface
+import com.ooftf.hi.view.HiResponseView
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 /**
  * Created by master on 2017/8/18 0018.
  */
-abstract class PresenterObserver<T>(vararg view: ResponseViewInterface<T>) : Observer<T> {
+abstract class HiPresenterObserver<T>(vararg view: HiResponseView<T>) : Observer<T> {
     private var views = view
     override fun onSubscribe(d: Disposable) {
         views.forEach { it.onRequest(d) }

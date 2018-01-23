@@ -1,6 +1,6 @@
 package com.ooftf.hihttp
 
-import com.ooftf.hi.controller.PresenterObserver
+import com.ooftf.hi.controller.HiPresenterObserver
 
 /**
  * T bean
@@ -8,7 +8,7 @@ import com.ooftf.hi.controller.PresenterObserver
  * R 响应界面
  * Created by master on 2017/10/12 0012.
  */
-open class PresenterObserver<T : BaseBean>(vararg view: IEResponse<T>) : PresenterObserver<T>(*view) {
+open class PresenterObserver<T : BaseBean>(vararg view: IEResponse<T>) : HiPresenterObserver<T>(*view) {
     private val views = view
     override fun onNext(value: T) {
         super.onNext(value)

@@ -5,7 +5,7 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by master on 2017/10/11 0011.
  */
-interface ResponseViewInterface<in T> {
+interface HiResponseView<in T> {
     fun onRequest(d: Disposable)
     fun onError(e: Throwable)
     fun onResponse(t:T)
