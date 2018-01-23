@@ -2,7 +2,7 @@ package com.ooftf.hihttp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.ooftf.hi.controller.DispatchObserver
+import com.ooftf.hi.controller.PresenterObserver
 import com.ooftf.hi.view.ResponseDialog
 import com.ooftf.hi.view.ResponseViewInterface
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
                     .picCaptcha()
                     .bindToLifecycle(responseLayout)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object :DispatchObserver<PicCaptchaBean>(responseLayout as ResponseViewInterface<PicCaptchaBean>){
+                    .subscribe(object : PresenterObserver<PicCaptchaBean>(responseLayout as ResponseViewInterface<PicCaptchaBean>){
 
                     })
         }
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
                 .picCaptcha()
                 .bindToLifecycle(responseLayout)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object :DispatchObserver<PicCaptchaBean>(responseLayout as ResponseViewInterface<PicCaptchaBean>){
+                .subscribe(object : PresenterObserver<PicCaptchaBean>(responseLayout as ResponseViewInterface<PicCaptchaBean>){
 
                 })
         textView.setOnClickListener {
@@ -39,12 +39,11 @@ class MainActivity : AppCompatActivity() {
                     //.signIn("4","3","2","1")
                     .bindToLifecycle(window.decorView)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : DispatchObserver<PicCaptchaBean>(ResponseDialog(this)) {
+                    .subscribe(object : PresenterObserver<PicCaptchaBean>(ResponseDialog(this)) {
 
                     })
         }
     }
-    class MyDispatchObserver(responseView: ResponseViewInterface<*>?) : com.ooftf.hi.controller.DispatchObserver<Nothing>(responseView) {
+    class MyDispatchObserver(vararg responseView: ResponseViewInterface<*>) : com.ooftf.hi.controller.PresenterObserver<Nothing>(*responseView)
 
-    }
 }

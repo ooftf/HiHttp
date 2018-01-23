@@ -1,6 +1,6 @@
 package com.ooftf.hihttp
 
-import com.ooftf.hi.controller.DispatchObserver
+import com.ooftf.hi.controller.PresenterObserver
 
 /**
  * T bean
@@ -8,8 +8,8 @@ import com.ooftf.hi.controller.DispatchObserver
  * R 响应界面
  * Created by master on 2017/10/12 0012.
  */
-open class EControlViewObserver<T : BaseBean>(var eResponseView: IEResponse<T>?) : DispatchObserver<T>(eResponseView) {
-
+open class PresenterObserver<T : BaseBean>(vararg view: IEResponse<T>) : PresenterObserver<T>(*view) {
+    private val views = view
     override fun onNext(value: T) {
         super.onNext(value)
         if (value.success) {
@@ -28,27 +28,33 @@ open class EControlViewObserver<T : BaseBean>(var eResponseView: IEResponse<T>?)
             }
         }
     }
+
     open fun onResponseSuccess(bean: T) {
-        eResponseView?.onResponseSuccess(bean)
+        views.forEach {
+            it.onResponseSuccess(bean)
+        }
     }
 
     open fun onResponseFailSessionOverdue(bean: T) {
-        eResponseView?.onResponseFailSessionOverdue(bean)
+        views.forEach {
+            it.onResponseFailSessionOverdue(bean)
+        }
     }
 
     open fun onResponseFailMessage(bean: T) {
-        eResponseView?.onResponseFailMessage(bean)
+        views.forEach {
+            it.onResponseFailMessage(bean)
+        }
     }
 
     open fun onResponseFailOffSiteLogin(bean: T) {
-        eResponseView?.onResponseFailOffSiteLogin(bean)
+        views.forEach {
+            it.onResponseFailOffSiteLogin(bean)
+        }
     }
-
 
     companion object {
         val CODE_OFF_SITE_LOGIN = "800001"
         val CODE_SESSION_OVERDUE = "800000"
     }
-
-
 }

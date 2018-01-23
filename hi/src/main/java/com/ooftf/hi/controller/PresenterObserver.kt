@@ -5,18 +5,19 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by master on 2017/8/18 0018.
  */
-abstract class DispatchObserver<T>(private var responseView: ResponseViewInterface<T>?) : Observer<T> {
+abstract class PresenterObserver<T>(vararg view: ResponseViewInterface<T>) : Observer<T> {
+    private var views = view
     override fun onSubscribe(d: Disposable) {
-        responseView?.onRequest(d)
+        views.forEach { it.onRequest(d) }
     }
     override fun onError(e: Throwable) {
-        responseView?.onError()
+        views.forEach { it.onError(e) }
     }
 
     override fun onNext(value: T) {
-        responseView?.onResponse(value)
+        views.forEach { it.onResponse(value) }
     }
     override fun onComplete(){
-        responseView?.onComplete()
+        views.forEach { it.onComplete() }
     }
 }

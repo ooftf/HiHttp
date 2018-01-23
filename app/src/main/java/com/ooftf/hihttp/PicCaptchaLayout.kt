@@ -59,7 +59,7 @@ class PicCaptchaLayout : RelativeLayout, IEResponse<PicCaptchaBean> {
                 .subscribe(PicCaptchaObserver(this))
     }
 
-    override fun onError() {
+    override fun onError(t:Throwable) {
         Log.e("onError", "onError")
         pic.visibility = View.VISIBLE
         progressBar.visibility = View.INVISIBLE
@@ -114,7 +114,7 @@ class PicCaptchaLayout : RelativeLayout, IEResponse<PicCaptchaBean> {
         pic.setOnClickListener { picCaptchaRequest() }
     }
     var uuid :String? = null
-   inner class PicCaptchaObserver(viewResponse: IEResponse<PicCaptchaBean>) : EControlViewObserver<PicCaptchaBean>(viewResponse){
+   inner class PicCaptchaObserver(viewResponse: IEResponse<PicCaptchaBean>) : PresenterObserver<PicCaptchaBean>(viewResponse){
         override fun onResponseSuccess(bean: PicCaptchaBean) {
             super.onResponseSuccess(bean)
             uuid = bean.body?.uuid

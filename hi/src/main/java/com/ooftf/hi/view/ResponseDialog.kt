@@ -56,7 +56,7 @@ open class ResponseDialog<in T>(var activity: Activity, var text:String = "åŠ è½
         Handler()
     }
 
-    override fun onError() {
+    override fun onError(t:Throwable) {
         state = STATE_ERROR
         onComplete()
     }

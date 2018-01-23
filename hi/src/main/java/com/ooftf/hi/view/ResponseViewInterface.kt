@@ -7,7 +7,7 @@ import io.reactivex.disposables.Disposable
  */
 interface ResponseViewInterface<in T> {
     fun onRequest(d: Disposable)
-    fun onError()
+    fun onError(e: Throwable)
     fun onResponse(t:T)
     fun onComplete()
     companion object {

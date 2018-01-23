@@ -45,7 +45,7 @@ open class ResponseLayout<in T> : FrameLayout, ResponseViewInterface<T> {
         start_container.visibility = View.VISIBLE
     }
 
-    override fun onError() {
+    override fun onError(t:Throwable) {
         state = ResponseViewInterface.STATE_ERROR
         onComplete()
     }

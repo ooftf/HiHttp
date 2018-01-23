@@ -1,6 +1,5 @@
 package com.ooftf.hi.engine
 
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import com.ooftf.hi.BuildConfig
