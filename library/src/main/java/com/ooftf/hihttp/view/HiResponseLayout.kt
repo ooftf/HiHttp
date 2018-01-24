@@ -45,7 +45,7 @@ open class HiResponseLayout<in T> : FrameLayout, HiResponseView<T> {
         start_container.visibility = View.VISIBLE
     }
 
-    override fun onError(t:Throwable) {
+    override fun onError(e:Throwable) {
         state = HiResponseView.STATE_ERROR
         onComplete()
     }

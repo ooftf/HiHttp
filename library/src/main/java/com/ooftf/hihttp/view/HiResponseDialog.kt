@@ -54,7 +54,7 @@ open class HiResponseDialog<in T>(var activity: Activity, var text:String = "加
         Handler()
     }
 
-    override fun onError(t:Throwable) {
+    override fun onError(e:Throwable) {
         state = STATE_ERROR
         onComplete()
     }

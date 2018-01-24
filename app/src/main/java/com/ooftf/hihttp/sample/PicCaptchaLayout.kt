@@ -1,4 +1,4 @@
-package com.ooftf.sample.hihttp
+package com.ooftf.hihttp.sample
 
 import android.annotation.TargetApi
 import android.app.Activity
@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import com.ooftf.sample.sample.R
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -51,15 +52,14 @@ class PicCaptchaLayout : RelativeLayout, IEResponse<PicCaptchaBean> {
     }
 
     private fun picCaptchaRequest() {
-        ServiceHolder
-                .service
+        ServiceHolder.service
                 .picCaptcha()
                 .bindToLifecycle(this)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(PicCaptchaObserver(this))
     }
 
-    override fun onError(t:Throwable) {
+    override fun onError(e:Throwable) {
         Log.e("onError", "onError")
         pic.visibility = View.VISIBLE
         progressBar.visibility = View.INVISIBLE

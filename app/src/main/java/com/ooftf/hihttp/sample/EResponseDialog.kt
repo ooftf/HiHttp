@@ -1,11 +1,11 @@
-package com.ooftf.sample.hihttp
+package com.ooftf.hihttp.sample
 import android.app.Activity
 import android.support.v7.app.AlertDialog
 import com.ooftf.hihttp.view.HiResponseDialog
 /**
- * Created by master on 2017/10/12 0012.
- */
-class EResponseDialog(activity: Activity,text:String="加载中"): HiResponseDialog<BaseBean>(activity,text),IEResponse<BaseBean> {
+* Created by master on 2017/10/12 0012.
+*/
+class EResponseDialog(activity: Activity,text:String="加载中"): HiResponseDialog<BaseBean>(activity,text), IEResponse<BaseBean> {
 
     override fun onResponseSuccess(bean: BaseBean) {
 

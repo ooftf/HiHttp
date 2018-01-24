@@ -1,4 +1,4 @@
-package com.ooftf.sample.hihttp
+package com.ooftf.hihttp.sample
 import retrofit2.http.*
 import io.reactivex.Observable
 /**
