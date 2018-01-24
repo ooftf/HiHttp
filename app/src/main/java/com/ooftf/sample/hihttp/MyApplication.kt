@@ -1,4 +1,4 @@
-package com.ooftf.hihttp
+package com.ooftf.sample.hihttp
 
 import android.app.Application
 import com.facebook.stetho.Stetho

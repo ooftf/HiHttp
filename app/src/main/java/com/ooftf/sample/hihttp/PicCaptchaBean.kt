@@ -1,4 +1,4 @@
-package com.ooftf.hihttp
+package com.ooftf.sample.hihttp
 
 /**
  * Created by master on 2017/10/20 0020.

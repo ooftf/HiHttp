@@ -1,7 +1,7 @@
-package com.ooftf.hihttp
+package com.ooftf.sample.hihttp
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.ooftf.hi.engine.ServiceGenerator
+import com.ooftf.hihttp.engine.ServiceGenerator
 
 
 /**

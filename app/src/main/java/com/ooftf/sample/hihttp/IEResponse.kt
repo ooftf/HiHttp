@@ -1,6 +1,6 @@
-package com.ooftf.hihttp
+package com.ooftf.sample.hihttp
 
-import com.ooftf.hi.view.HiResponseView
+import com.ooftf.hihttp.view.HiResponseView
 
 /**
  * Created by master on 2017/10/12 0012.

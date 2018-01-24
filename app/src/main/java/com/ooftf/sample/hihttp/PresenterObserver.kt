@@ -1,6 +1,6 @@
-package com.ooftf.hihttp
+package com.ooftf.sample.hihttp
 
-import com.ooftf.hi.controller.HiPresenterObserver
+import com.ooftf.hihttp.controller.HiPresenterObserver
 
 /**
  * T bean

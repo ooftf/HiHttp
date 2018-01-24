@@ -1,7 +1,7 @@
-package com.ooftf.hihttp
+package com.ooftf.sample.hihttp
 import android.app.Activity
 import android.support.v7.app.AlertDialog
-import com.ooftf.hi.view.HiResponseDialog
+import com.ooftf.hihttp.view.HiResponseDialog
 /**
  * Created by master on 2017/10/12 0012.
  */

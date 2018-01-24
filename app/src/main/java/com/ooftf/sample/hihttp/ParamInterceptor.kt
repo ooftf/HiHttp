@@ -1,6 +1,6 @@
-package com.ooftf.hihttp
+package com.ooftf.sample.hihttp
 
-import com.ooftf.hi.engine.ParamInterceptor
+import com.ooftf.hihttp.engine.ParamInterceptor
 
 /**
  * Created by master on 2017/3/7.

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ooftf.hi.view.HiResponseLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ooftf.hihttp.view.HiResponseLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/responseLayout"
-    tools:context="com.ooftf.hihttp.MainActivity">
+    tools:context="com.ooftf.sample.hihttp.MainActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -17,4 +17,4 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-</com.ooftf.hi.view.HiResponseLayout>
+</com.ooftf.hihttp.view.HiResponseLayout>

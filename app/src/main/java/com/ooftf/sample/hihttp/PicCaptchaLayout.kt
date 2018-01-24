@@ -1,4 +1,4 @@
-package com.ooftf.hihttp
+package com.ooftf.sample.hihttp
 
 import android.annotation.TargetApi
 import android.app.Activity

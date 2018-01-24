@@ -1,10 +1,10 @@
-package com.ooftf.hihttp
+package com.ooftf.sample.hihttp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.ooftf.hi.controller.HiPresenterObserver
-import com.ooftf.hi.view.HiResponseDialog
-import com.ooftf.hi.view.HiResponseView
+import com.ooftf.hihttp.controller.HiPresenterObserver
+import com.ooftf.hihttp.view.HiResponseDialog
+import com.ooftf.hihttp.view.HiResponseView
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
@@ -44,6 +44,6 @@ class MainActivity : AppCompatActivity() {
                     })
         }
     }
-    class MyDispatchObserver(vararg responseView: HiResponseView<*>) : com.ooftf.hi.controller.HiPresenterObserver<Nothing>(*responseView)
+    class MyDispatchObserver(vararg responseView: HiResponseView<*>) : com.ooftf.hihttp.controller.HiPresenterObserver<Nothing>(*responseView)
 
 }

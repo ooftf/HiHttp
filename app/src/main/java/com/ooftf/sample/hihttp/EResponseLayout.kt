@@ -1,10 +1,10 @@
-package com.ooftf.hihttp
+package com.ooftf.sample.hihttp
 
 import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
-import com.ooftf.hi.view.HiResponseLayout
+import com.ooftf.hihttp.view.HiResponseLayout
 
 /**
  * Created by master on 2017/10/12 0012.
