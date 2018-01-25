@@ -34,7 +34,6 @@ abstract class ParamInterceptor : Interceptor {
         }
         return chain.proceed(request)
     }
-
     private fun buildWithNewParams(url: HttpUrl, params: MutableMap<String, String>): HttpUrl {
         val newBuilder = url.newBuilder()
         url.queryParameterNames().forEach {
