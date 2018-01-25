@@ -1,11 +1,14 @@
 package com.ooftf.hihttp.sample
+
 import android.app.Activity
+import android.content.Intent
 import android.support.v7.app.AlertDialog
 import com.ooftf.hihttp.view.HiResponseDialog
+
 /**
-* Created by master on 2017/10/12 0012.
-*/
-class EResponseDialog(activity: Activity,text:String="加载中"): HiResponseDialog<BaseBean>(activity,text), IEResponse<BaseBean> {
+ * Created by master on 2017/10/12 0012.
+ */
+class EResponseDialog(activity: Activity, text: String = "加载中") : HiResponseDialog<BaseBean>(activity, text), IEResponse<BaseBean> {
 
     override fun onResponseSuccess(bean: BaseBean) {
 
@@ -28,12 +31,12 @@ class EResponseDialog(activity: Activity,text:String="加载中"): HiResponseDia
     }
 
     private fun showToMainDialog(bean: BaseBean) {
-       /* AlertDialog
+        AlertDialog
                 .Builder(activity)
                 .setMessage(bean.info)
-                .setNeutralButton("返回首页", { _, _ -> activity.startActivity(MainActivity.getStartIntent(activity)) })
+                .setNeutralButton("返回首页", { _, _ -> activity.startActivity(Intent(context, MainActivity::class.java)) })
                 .setCancelable(false)
-                .show()*/
+                .show()
     }
 
 }
