@@ -64,9 +64,9 @@ open class ServiceGenerator() {
     private fun createOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
                 .cookieJar(KeepCookieJar())
-                .connectTimeout(300, TimeUnit.SECONDS)
-                .readTimeout(300, TimeUnit.SECONDS)
-                .writeTimeout(300, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
         if (ignoreSSL) {
             builder.hostnameVerifier(createIgnoreHostnameVerifier())
                     .sslSocketFactory(createIgnoreSSLSocketFactory())
@@ -83,7 +83,6 @@ open class ServiceGenerator() {
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                     .client(createOkHttpClient())
                     .build()
-
     fun addHeader(key: String, value: String) {
         headers.put(key, value)
     }

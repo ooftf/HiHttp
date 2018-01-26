@@ -1,6 +1,9 @@
 package com.ooftf.hihttp.sample
 
 import com.ooftf.hihttp.controller.HiPresenterObserver
+import com.ooftf.hihttp.view.HiResponseView
+import io.reactivex.internal.util.LinkedArrayList
+import java.util.*
 
 /**
  * T bean
@@ -8,8 +11,17 @@ import com.ooftf.hihttp.controller.HiPresenterObserver
  * R 响应界面
  * Created by master on 2017/10/12 0012.
  */
-open class PresenterObserver<T : BaseBean>(vararg view: IEResponse<T>) : HiPresenterObserver<T>(*view) {
-    private val views = view
+open class PresenterObserver<T : BaseBean> : HiPresenterObserver<T>{
+    constructor(vararg view: HiResponseView<T>) : super(*view) {
+        views = arrayOf()
+    }
+
+    constructor(vararg view: IEResponse<T>) : super(*view) {
+        views = view
+        var s = LinkedHashMap<String,String>()
+    }
+
+    private var views: Array<out IEResponse<T>>
     override fun onNext(value: T) {
         super.onNext(value)
         if (value.success) {
