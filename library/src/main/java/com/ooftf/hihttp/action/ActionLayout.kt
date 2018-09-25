@@ -51,7 +51,7 @@ open class ActionLayout : FrameLayout {
         inflater = LayoutInflater.from(context)
         inflater.inflate(R.layout.layout_start, this)
         inflater.inflate(R.layout.layout_error, this)
-        invisibleAll()
+        toSuccessView()
     }
 
     private fun invisibleAll() {
