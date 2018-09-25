@@ -19,18 +19,21 @@ import kotlinx.android.synthetic.main.layout_start.view.*
  *
  * Created by master on 2017/10/11 0011.
  */
-open class LayoutAction<T> : FrameLayout, ObservableTransformer<T, T> {
-    override fun apply(upstream: Observable<T>): ObservableSource<T> {
-        return upstream
-                .doOnSubscribe {
-                    toLoadingView()
-                }
-                .doOnError {
-                    toErrorView()
-                }
-                .doOnComplete {
-                    toSuccessView()
-                }
+open class ActionLayout : FrameLayout {
+
+    fun <T> getAction(): ObservableTransformer<T, T> {
+        return ObservableTransformer { observable ->
+            observable
+                    .doOnSubscribe {
+                        toLoadingView()
+                    }
+                    .doOnError {
+                        toErrorView()
+                    }
+                    .doOnComplete {
+                        toSuccessView()
+                    }
+        }
     }
 
     constructor(context: Context?) : super(context)

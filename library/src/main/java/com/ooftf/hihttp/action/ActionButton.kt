@@ -16,7 +16,7 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by 99474 on 2018/1/25 0025.
  */
-class ButtonAction : Button {
+class ActionButton : Button {
 
     fun <T> getAction(): ObservableTransformer<T, T> {
         return ObservableTransformer { observable ->
@@ -28,12 +28,7 @@ class ButtonAction : Button {
                         text = "加载中..."
                         isEnabled = false
                     }
-                    .doOnError {
-                        isEnabled = true
-                        setDrawableLeft(initialLeft)
-                        text = initialText
-                    }
-                    .doOnComplete {
+                    .doOnTerminate {
                         isEnabled = true
                         setDrawableLeft(initialLeft)
                         text = initialText
@@ -53,8 +48,8 @@ class ButtonAction : Button {
         result.start()
         result
     }
-    var initialLeft: Drawable? = null
-    lateinit var initialText: String
+    private var initialLeft: Drawable? = null
+    private lateinit var initialText: String
 
     private fun setDrawableLeft(left: Drawable?) {
         setCompoundDrawablesWithIntrinsicBounds(left, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3])
