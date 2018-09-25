@@ -1,4 +1,4 @@
-package com.ooftf.hihttp.view
+package com.ooftf.hihttp.action
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -8,12 +8,39 @@ import android.os.Build
 import android.util.AttributeSet
 import android.widget.Button
 import com.ooftf.support.MaterialProgressDrawable
+import io.reactivex.Observable
+import io.reactivex.ObservableSource
+import io.reactivex.ObservableTransformer
 import io.reactivex.disposables.Disposable
 
 /**
  * Created by 99474 on 2018/1/25 0025.
  */
-class HiResponseButton : Button, HiResponseView<Any> {
+class ButtonAction : Button {
+
+    fun <T> getAction(): ObservableTransformer<T, T> {
+        return ObservableTransformer { observable ->
+            observable
+                    .doOnSubscribe {
+                        initialLeft = compoundDrawables[0]
+                        initialText = text.toString()
+                        setDrawableLeft(loadingDrawable)
+                        text = "加载中..."
+                        isEnabled = false
+                    }
+                    .doOnError {
+                        isEnabled = true
+                        setDrawableLeft(initialLeft)
+                        text = initialText
+                    }
+                    .doOnComplete {
+                        isEnabled = true
+                        setDrawableLeft(initialLeft)
+                        text = initialText
+                    }
+        }
+    }
+
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -26,32 +53,10 @@ class HiResponseButton : Button, HiResponseView<Any> {
         result.start()
         result
     }
-    var initialLeft: Drawable?=null
-    lateinit var initialText:String
-    override fun onRequest(d: Disposable) {
-        initialLeft = compoundDrawables[0]
-        initialText = text.toString()
-        setDrawableLeft(loadingDrawable)
-        text = "加载中..."
-        isEnabled = false
-    }
+    var initialLeft: Drawable? = null
+    lateinit var initialText: String
 
-    override fun onError(e: Throwable) {
-        isEnabled = true
-        setDrawableLeft(initialLeft)
-        text = initialText
-    }
-
-    override fun onResponse(t: Any) {
-        isEnabled = true
-        setDrawableLeft(initialLeft)
-        text = initialText
-    }
-
-    override fun onComplete() {
-
-    }
-    fun setDrawableLeft(left:Drawable?){
+    private fun setDrawableLeft(left: Drawable?) {
         setCompoundDrawablesWithIntrinsicBounds(left, compoundDrawables[1], compoundDrawables[2], compoundDrawables[3])
     }
 

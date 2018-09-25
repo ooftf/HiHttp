@@ -7,6 +7,10 @@ android {
         minSdkVersion 14
         targetSdkVersion 26
     }
+    compileOptions {
+        sourceCompatibility versions.java
+        targetCompatibility versions.java
+    }
 }
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
@@ -18,7 +22,7 @@ artifacts {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
     api 'com.squareup.retrofit2:retrofit:2.3.0'
     api 'com.squareup.retrofit2:converter-gson:2.3.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'

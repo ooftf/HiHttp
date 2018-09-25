@@ -1,4 +1,4 @@
-package com.ooftf.hihttp.view
+package com.ooftf.hihttp.action
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -19,29 +19,19 @@ import kotlinx.android.synthetic.main.layout_start.view.*
  *
  * Created by master on 2017/10/11 0011.
  */
-open class HiLayoutAction<T> : FrameLayout, ObservableTransformer<T, T> {
+open class LayoutAction<T> : FrameLayout, ObservableTransformer<T, T> {
     override fun apply(upstream: Observable<T>): ObservableSource<T> {
-        upstream.doOnSubscribe {
-            counter++
-            state = STATE_LOADING
-            updateView()
-        }
-        upstream.doOnTerminate {
-            counter--
-            if (counter > 0) return@doOnTerminate
-            updateView()
-        }
-        upstream.doOnError {
-            state = STATE_ERROR
-        }
-        upstream.doOnNext {
-            state = STATE_SUCCESS
-        }
-        return upstream;
+        return upstream
+                .doOnSubscribe {
+                    toLoadingView()
+                }
+                .doOnError {
+                    toErrorView()
+                }
+                .doOnComplete {
+                    toSuccessView()
+                }
     }
-
-    private var counter = 0
-    var state = STATE_SUCCESS
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -73,27 +63,18 @@ open class HiLayoutAction<T> : FrameLayout, ObservableTransformer<T, T> {
         }
     }
 
-    fun updateView() {
-        when (state) {
-            STATE_SUCCESS -> {
-                invisibleAll()
-                success?.visibility = View.VISIBLE
-            }
-            STATE_ERROR -> {
-                invisibleAll()
-                error_container.visibility = View.VISIBLE
-            }
-            STATE_LOADING -> {
-                invisibleAll()
-                start_container.visibility = View.VISIBLE
-            }
-        }
-
+    fun toErrorView() {
+        invisibleAll()
+        error_container.visibility = View.VISIBLE
     }
 
-    companion object {
-        var STATE_LOADING = 0
-        var STATE_ERROR = 1
-        var STATE_SUCCESS = 2
+    fun toLoadingView() {
+        invisibleAll()
+        start_container.visibility = View.VISIBLE
+    }
+
+    fun toSuccessView() {
+        invisibleAll()
+        success?.visibility = View.VISIBLE
     }
 }
