@@ -18,14 +18,14 @@ import io.reactivex.disposables.Disposable
  */
 class ActionButton : Button {
 
-    fun <T> getAction(): ObservableTransformer<T, T> {
+    fun <T> getAction(message: CharSequence = "加载中..."): ObservableTransformer<T, T> {
         return ObservableTransformer { observable ->
             observable
                     .doOnSubscribe {
                         initialLeft = compoundDrawables[0]
                         initialText = text.toString()
                         setDrawableLeft(loadingDrawable)
-                        text = "加载中..."
+                        text = message
                         isEnabled = false
                     }
                     .doOnTerminate {
