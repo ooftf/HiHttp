@@ -1,11 +1,9 @@
 package com.ooftf.hihttp.sample
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import com.ooftf.hihttp.controller.HiPresenterObserver
-import com.ooftf.hihttp.view.HiResponseDialog
-import com.ooftf.hihttp.view.HiResponseView
+import com.ooftf.hihttp.action.DialogAction
 import com.ooftf.sample.sample.R
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,26 +19,35 @@ class MainActivity : AppCompatActivity() {
                     .picCaptcha()
                     .bindToLifecycle(responseLayout)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : HiPresenterObserver<PicCaptchaBean>(responseLayout as HiResponseView<PicCaptchaBean>){
+                    .compose(responseLayout.getAction())
+                    .subscribe(object : BaseObserver<PicCaptchaBean>() {
+                        override fun onSuccess(value: PicCaptchaBean?) {
 
+                        }
                     })
         }
         ServiceHolder.service
                 .picCaptcha()
                 .bindToLifecycle(responseLayout)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : HiPresenterObserver<PicCaptchaBean>(responseLayout as HiResponseView<PicCaptchaBean>){
+                .compose(responseLayout.getAction())
+                .subscribe(object : BaseObserver<PicCaptchaBean>() {
+                    override fun onSuccess(value: PicCaptchaBean?) {
 
+                    }
                 })
         textView.setOnClickListener {
-            Toast.makeText(this,javaClass.genericInterfaces.toString(),Toast.LENGTH_SHORT)
+            Toast.makeText(this,javaClass.genericInterfaces.toString(),Toast.LENGTH_SHORT).show()
             ServiceHolder.service
                     .picCaptcha()
                     //.signIn("4","3","2","1")
                     .bindToLifecycle(window.decorView)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : HiPresenterObserver<PicCaptchaBean>(HiResponseDialog(this)) {
+                    .compose(DialogAction(this))
+                    .subscribe(object : BaseObserver<PicCaptchaBean>() {
+                        override fun onSuccess(value: PicCaptchaBean?) {
 
+                        }
                     })
         }
         commit.setOnClickListener {
@@ -49,11 +56,12 @@ class MainActivity : AppCompatActivity() {
                     .picCaptcha()
                     .bindToLifecycle(commit)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : HiPresenterObserver<PicCaptchaBean>(commit){
+                    .compose(commit.getAction())
+                    .subscribe(object : BaseObserver<PicCaptchaBean>() {
+                        override fun onSuccess(value: PicCaptchaBean?) {
 
+                        }
                     })
         }
     }
-    class MyDispatchObserver(vararg responseView: HiResponseView<*>) : com.ooftf.hihttp.controller.HiPresenterObserver<Nothing>(*responseView)
-
 }

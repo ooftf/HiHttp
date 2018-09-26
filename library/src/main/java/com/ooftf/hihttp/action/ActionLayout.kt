@@ -16,8 +16,9 @@ import kotlinx.android.synthetic.main.layout_start.view.*
 
 /**
  * 适合只加载一次的页面，比如进入activity就要加载数据，并且每次数据都是独立的。不适合多次加载的列表页面
- *
- * Created by master on 2017/10/11 0011.
+ * @author ooftf
+ * @Email 994749769@qq.com
+ * @date 2018/9/27 0027
  */
 open class ActionLayout : FrameLayout {
 
@@ -47,7 +48,9 @@ open class ActionLayout : FrameLayout {
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        success = getChildAt(0)
+        if (childCount > 0) {
+            success = getChildAt(0)
+        }
         inflater = LayoutInflater.from(context)
         inflater.inflate(R.layout.layout_start, this)
         inflater.inflate(R.layout.layout_error, this)

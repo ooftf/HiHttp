@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ooftf.hihttp.view.HiResponseLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ooftf.hihttp.action.ActionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,10 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello World!" />
-        <com.ooftf.hihttp.view.HiResponseButton
+        <com.ooftf.hihttp.action.ActionButton
             android:text="commit"
             android:id="@+id/commit"
             android:layout_width="match_parent"
             android:layout_height="48dp" />
     </LinearLayout>
-</com.ooftf.hihttp.view.HiResponseLayout>
+</com.ooftf.hihttp.action.ActionLayout>

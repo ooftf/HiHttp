@@ -14,10 +14,13 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by 99474 on 2018/1/25 0025.
+ *
+ * 一个左侧具有loading进度的button，主要结合RxJava的网络请求一起使用
+ * @author ooftf
+ * @Email 994749769@qq.com
+ * @date 2018/9/27 0027
  */
 class ActionButton : Button {
-
     fun <T> getAction(message: CharSequence = "加载中..."): ObservableTransformer<T, T> {
         return ObservableTransformer { observable ->
             observable

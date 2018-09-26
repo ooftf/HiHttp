@@ -6,9 +6,12 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 /**
- * Created by master on 2017/3/7.
+ *
+ * 参数拦截器，可以修改请求参数
+ * @author ooftf
+ * @Email 994749769@qq.com
+ * @date 2018/9/27 0027
  */
-
 abstract class ParamInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()

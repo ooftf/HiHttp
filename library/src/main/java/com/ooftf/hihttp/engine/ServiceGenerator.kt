@@ -15,13 +15,17 @@ import javax.net.ssl.*
 
 
 /**
- * Created by master on 2017/8/15 0015.
+ *
+ * 配合retrofit生成service
+ * @author ooftf
+ * @Email 994749769@qq.com
+ * @date 2018/9/27 0027
  */
-open class ServiceGenerator() {
+open class ServiceGenerator {
     var baseUrl: String = ""
     var ignoreSSL: Boolean = false
-    var loggable:Boolean = false
-    var buildOkhttp:((OkHttpClient.Builder)->Unit)?=null
+    var loggable: Boolean = false
+    var buildOkhttp: ((OkHttpClient.Builder) -> Unit)? = null
     private val headers: MutableMap<String, String> = HashMap()
     private fun createLogInterceptor(): LoggingInterceptor {
         val response = LoggingInterceptor.Builder()
@@ -48,7 +52,7 @@ open class ServiceGenerator() {
             }
 
             override fun getAcceptedIssuers(): Array<X509Certificate> {
-                return arrayOf<X509Certificate>()
+                return arrayOf()
             }
         }
         ssl.init(null, arrayOf<TrustManager>(xtm), SecureRandom())
@@ -83,8 +87,10 @@ open class ServiceGenerator() {
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                     .client(createOkHttpClient())
                     .build()
+
     fun addHeader(key: String, value: String) {
-        headers.put(key, value)
+        headers[key] = value
     }
+
     fun <T> createService(cla: Class<T>) = createRetrofit().create(cla)
 }
