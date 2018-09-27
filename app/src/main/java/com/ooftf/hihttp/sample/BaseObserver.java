@@ -7,7 +7,7 @@ import com.ooftf.hihttp.EmptyObserver;
  * @email 994749769@qq.com
  * @date 2018/9/27 0027
  */
-public  class BaseObserver<T extends BaseBean> extends EmptyObserver<T> {
+public class BaseObserver<T extends BaseBean> extends EmptyObserver<T> {
     @Override
     public void onNext(T value) {
         if (value.getSuccess()) {

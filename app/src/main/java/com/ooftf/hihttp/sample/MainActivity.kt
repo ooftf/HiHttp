@@ -36,6 +36,19 @@ class MainActivity : AppCompatActivity() {
 
                     }
                 })
+        progressImage.setOnClickListener {
+            ServiceHolder.service
+                    .picCaptcha()
+                    //.signIn("4","3","2","1")
+                    .bindToLifecycle(window.decorView)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .compose(progressImage.getAction())
+                    .subscribe(object : BaseObserver<PicCaptchaBean>() {
+                        override fun onSuccess(value: PicCaptchaBean?) {
+
+                        }
+                    })
+        }
         textView.setOnClickListener {
             Toast.makeText(this,javaClass.genericInterfaces.toString(),Toast.LENGTH_SHORT).show()
             ServiceHolder.service

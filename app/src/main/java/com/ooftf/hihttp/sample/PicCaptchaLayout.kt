@@ -22,24 +22,18 @@ import io.reactivex.disposables.Disposable
  * Created by master on 2017/10/20 0020.
  */
 class PicCaptchaLayout : RelativeLayout {
+
     override fun onAttachedToWindow() {
-        Log.e("onAttachedToWindow", "onAttachedToWindow")
         super.onAttachedToWindow()
         picCaptchaRequest()
     }
-
-    override fun onFinishInflate() {
-        Log.e("onFinishInflate", "onFinishInflate")
-        super.onFinishInflate()
-    }
-
     private fun picCaptchaRequest() {
         ServiceHolder.service
                 .picCaptcha()
                 .bindToLifecycle(this)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : BaseObserver<PicCaptchaBean>() {
-                    override fun onSubscribe(d: Disposable?) {
+                    override fun onSubscribe(d: Disposable) {
                         pic.visibility = View.INVISIBLE
                         progressBar.visibility = View.VISIBLE
                     }
@@ -61,7 +55,7 @@ class PicCaptchaLayout : RelativeLayout {
                         pic.setImageResource(R.drawable.vector_net_error)
                     }
 
-                    override fun onError(e: Throwable?) {
+                    override fun onError(e: Throwable) {
                         Log.e("onError", "onError")
                         pic.visibility = View.VISIBLE
                         progressBar.visibility = View.INVISIBLE

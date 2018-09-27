@@ -2,23 +2,33 @@
 <com.ooftf.hihttp.action.ActionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/responseLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/responseLayout"
     tools:context="com.ooftf.hihttp.sample.MainActivity">
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello World!" />
+
         <com.ooftf.hihttp.action.ActionButton
-            android:text="commit"
             android:id="@+id/commit"
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="48dp"
+            android:text="commit" />
+
+        <com.ooftf.hihttp.action.ProgressImage
+            android:id="@+id/progressImage"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="centerCrop"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
     </LinearLayout>
 </com.ooftf.hihttp.action.ActionLayout>
