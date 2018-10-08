@@ -18,7 +18,7 @@ public class DialogAction<T> implements ObservableTransformer<T, T> {
     private CharSequence message;
     public DialogAction(Activity activity) {
         this.activity = activity;
-        message = "加载中...";
+        message = "正在加载...";
     }
     public DialogAction(Activity activity, CharSequence message) {
         this.activity = activity;

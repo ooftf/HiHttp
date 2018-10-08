@@ -24,7 +24,7 @@
             android:layout_height="48dp"
             android:text="commit" />
 
-        <com.ooftf.hihttp.action.ProgressImage
+        <com.ooftf.hihttp.action.ActionImageView
             android:id="@+id/progressImage"
             android:src="@mipmap/ic_launcher"
             android:scaleType="centerCrop"

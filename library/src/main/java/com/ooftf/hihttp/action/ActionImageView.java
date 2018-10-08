@@ -1,12 +1,10 @@
 package com.ooftf.hihttp.action;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.widget.ImageView;
 
 import com.ooftf.hihttp.R;
 import com.ooftf.support.MaterialProgressDrawable;
@@ -19,16 +17,16 @@ import io.reactivex.functions.Action;
  * @email 994749769@qq.com
  * @date 2018/9/28 0028
  */
-public class ProgressImage extends AppCompatImageView {
-    public ProgressImage(Context context) {
+public class ActionImageView extends AppCompatImageView {
+    public ActionImageView(Context context) {
         super(context);
     }
 
-    public ProgressImage(Context context, AttributeSet attrs) {
+    public ActionImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ProgressImage(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ActionImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -43,19 +41,22 @@ public class ProgressImage extends AppCompatImageView {
         return upstream ->
                 upstream.doOnSubscribe(disposable -> {
                     initial = getDrawable();
+                    getProgressDrawable().start();
                     setImageDrawable(getProgressDrawable());
+                    setEnabled(false);
                 }).doOnTerminate((Action) () -> {
                     setImageDrawable(initial);
+                    setEnabled(true);
+                    getProgressDrawable().stop();
                 });
     }
 
     MaterialProgressDrawable progress;
 
-    Drawable getProgressDrawable() {
+    MaterialProgressDrawable getProgressDrawable() {
         if (progress == null) {
             progress = new MaterialProgressDrawable(getContext(), this);
             progress.setColorSchemeColors(getColorPrimary());
-            progress.start();
         }
         return progress;
     }

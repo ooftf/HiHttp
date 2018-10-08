@@ -23,10 +23,11 @@ artifacts {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    compileOnly 'com.android.support:appcompat-v7:26.1.0'
     api 'com.squareup.retrofit2:retrofit:2.3.0'
     api 'com.squareup.retrofit2:converter-gson:2.3.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     api 'com.github.ooftf:LoggingInterceptor:2.0.4'
     api 'com.github.ooftf:Support:1.1.1'
+    implementation 'com.github.ooftf:progress-drawable:1.2.0'
 }
