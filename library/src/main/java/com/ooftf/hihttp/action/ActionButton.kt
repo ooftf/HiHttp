@@ -21,7 +21,7 @@ import io.reactivex.disposables.Disposable
  * @date 2018/9/27 0027
  */
 class ActionButton : Button {
-    fun <T> getAction(message: CharSequence = "加载中..."): ObservableTransformer<T, T> {
+    fun <T> getAction(message: CharSequence = "正在加载..."): ObservableTransformer<T, T> {
         return ObservableTransformer { observable ->
             observable
                     .doOnSubscribe {
