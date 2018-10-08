@@ -22,7 +22,7 @@ public class ButtonAction<T> implements ObservableTransformer<T, T> {
     public ButtonAction(TextView view) {
         this.view = view;
         progressDrawable = new GradualHorizontalProgressDrawable(view.getContext(), view);
-        progressDrawable.setIntrinsicWidth(view.getMeasuredWidth());
+        progressDrawable.setIntrinsicWidth(view.getWidth() - view.getPaddingLeft() - view.getPaddingRight());
     }
 
     public ButtonAction(TextView view, String progressText) {
