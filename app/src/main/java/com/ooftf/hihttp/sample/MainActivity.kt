@@ -50,15 +50,13 @@ class MainActivity : AppCompatActivity() {
                     })
         }
         textView.setOnClickListener {
-            Toast.makeText(this,javaClass.genericInterfaces.toString(),Toast.LENGTH_SHORT).show()
             ServiceHolder.service
-                    .picCaptcha()
-                    //.signIn("4","3","2","1")
+                    .signIn("4","3","2","1")
                     .bindToLifecycle(window.decorView)
                     .observeOn(AndroidSchedulers.mainThread())
                     .compose(DialogAction(this))
-                    .subscribe(object : BaseObserver<PicCaptchaBean>() {
-                        override fun onSuccess(value: PicCaptchaBean?) {
+                    .subscribe(object : BaseObserver<BaseBean>() {
+                        override fun onSuccess(value: BaseBean?) {
 
                         }
                     })
@@ -66,12 +64,12 @@ class MainActivity : AppCompatActivity() {
         commit.setOnClickListener {
             Toast.makeText(this,javaClass.interfaces.toString(),Toast.LENGTH_SHORT)
             ServiceHolder.service
-                    .picCaptcha()
+                    .getBanner("1","2")
                     .bindToLifecycle(commit)
                     .observeOn(AndroidSchedulers.mainThread())
                     .compose(commit.getAction())
-                    .subscribe(object : BaseObserver<PicCaptchaBean>() {
-                        override fun onSuccess(value: PicCaptchaBean?) {
+                    .subscribe(object : BaseObserver<BaseBean>() {
+                        override fun onSuccess(value: BaseBean?) {
 
                         }
                     })

@@ -1,10 +1,14 @@
 package com.ooftf.hihttp.engine
 
-import com.ihsanbal.logging.Level
-import com.ihsanbal.logging.LoggingInterceptor
+import android.text.TextUtils
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.Logger
+import com.orhanobut.logger.PrettyFormatStrategy
 import io.reactivex.schedulers.Schedulers
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.internal.platform.Platform
+import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,17 +31,27 @@ open class ServiceGenerator {
     var loggable: Boolean = false
     var buildOkhttp: ((OkHttpClient.Builder) -> Unit)? = null
     private val headers: MutableMap<String, String> = HashMap()
-    private fun createLogInterceptor(): LoggingInterceptor {
-        val response = LoggingInterceptor.Builder()
-                .loggable(loggable)
-                .setLevel(Level.BASIC)
-                .log(Platform.INFO)
-                .request("Request")
-                .response("Response")
-        headers.forEach {
-            response.addHeader(it.key, it.value)
-        }
-        return response.build()
+    private fun createLogInterceptor(): Interceptor {
+        val formatStrategy = PrettyFormatStrategy.newBuilder()
+                .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
+                .methodCount(0)         // (Optional) How many method line to show. Default 2
+                .methodOffset(0)        // (Optional) Hides internal method calls up to offset. Default 5
+                .tag("OkHttp")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
+                .build()
+        Logger.addLogAdapter(AndroidLogAdapter(formatStrategy))
+        val logging = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
+            if (TextUtils.isEmpty(it)) {
+                return@Logger
+            }
+            try {
+                JSONObject(it)
+                Logger.json(it)
+            } catch (e: Exception) {
+                Logger.d(it)
+            }
+        })
+        logging.level = HttpLoggingInterceptor.Level.BODY
+        return logging
     }
 
     private fun createIgnoreSSLSocketFactory(): SSLSocketFactory {
