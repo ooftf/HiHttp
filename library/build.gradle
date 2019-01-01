@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.novoda.bintray-release'
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -19,6 +20,24 @@ task sourcesJar(type: Jar) {
 
 artifacts {
     archives sourcesJar
+}
+sourceCompatibility = "7"
+targetCompatibility = "7"
+publish {
+    repoName = 'maven'
+    userOrg = 'ooftf'      // bintray注册的用户名
+    groupId = 'com.ooftf'
+    artifactId = 'hi-http'// bintray创建的package
+    publishVersion = '3.5.0'
+    desc = 'nothing'
+    bintrayUser = 'ooftf'
+    bintrayKey = bintray_key
+    dryRun = false
+}
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
