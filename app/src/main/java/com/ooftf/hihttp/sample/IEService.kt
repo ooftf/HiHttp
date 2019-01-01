@@ -14,4 +14,8 @@ interface IEService {
                         @Field("uuid") uuid: String): Observable<BaseBean>
     @POST("service/system/identify")
     fun picCaptcha(): Observable<PicCaptchaBean>
+
+    @FormUrlEncoded
+    @POST("service/more/index")
+    fun getBanner(@Field("useClientVersion") userClientVersion: String, @Field("terminalType") terminalType: String): Observable<BaseBean>
 }
