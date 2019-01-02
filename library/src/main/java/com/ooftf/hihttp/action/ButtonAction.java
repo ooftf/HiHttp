@@ -3,8 +3,8 @@ package com.ooftf.hihttp.action;
 import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
-import com.ooftf.hihttp.action.weak.WeakAction;
-import com.ooftf.hihttp.action.weak.WeakConsumer;
+import com.ooftf.hihttp.action.weak.LifeAction;
+import com.ooftf.hihttp.action.weak.LifeConsumer;
 import com.ooftf.progress.GradualHorizontalProgressDrawable;
 
 import io.reactivex.Observable;
@@ -39,19 +39,19 @@ public class ButtonAction<T> implements ObservableTransformer<T, T> {
     @Override
     public ObservableSource<T> apply(Observable<T> upstream) {
         return upstream
-                .doOnSubscribe(new WeakConsumer<>(disposable -> {
+                .doOnSubscribe(new LifeConsumer<>(disposable -> {
                     tempDrawables = view.getCompoundDrawables();
                     tempText = view.getText();
                     progressDrawable.start();
                     view.setCompoundDrawablesWithIntrinsicBounds(tempDrawables[0], tempDrawables[1], tempDrawables[2], progressDrawable);
                     view.setText(progressText);
                     view.setEnabled(false);
-                }))
-                .doOnTerminate(new WeakAction(() -> {
+                },view))
+                .doOnTerminate(new LifeAction(() -> {
                     view.setText(tempText);
                     view.setCompoundDrawablesWithIntrinsicBounds(tempDrawables[0], tempDrawables[1], tempDrawables[2], tempDrawables[3]);
                     progressDrawable.stop();
                     view.setEnabled(true);
-                }));
+                },view));
     }
 }

@@ -7,8 +7,8 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
 import android.widget.Button
-import com.ooftf.hihttp.action.weak.WeakAction
-import com.ooftf.hihttp.action.weak.WeakConsumer
+import com.ooftf.hihttp.action.weak.LifeAction
+import com.ooftf.hihttp.action.weak.LifeConsumer
 import com.ooftf.support.MaterialProgressDrawable
 import io.reactivex.ObservableTransformer
 
@@ -23,18 +23,18 @@ class ActionButton : Button {
     fun <T> getAction(message: CharSequence = "正在加载..."): ObservableTransformer<T, T> {
         return ObservableTransformer { observable ->
             observable
-                    .doOnSubscribe(WeakConsumer {
+                    .doOnSubscribe(LifeConsumer({
                         initialLeft = compoundDrawables[0]
                         initialText = text.toString()
                         setDrawableLeft(loadingDrawable)
                         text = message
                         isEnabled = false
-                    })
-                    .doOnTerminate(WeakAction {
+                    }, this))
+                    .doOnTerminate(LifeAction({
                         isEnabled = true
                         setDrawableLeft(initialLeft)
                         text = initialText
-                    })
+                    }, this))
         }
     }
 

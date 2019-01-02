@@ -6,8 +6,8 @@ import android.util.TypedValue;
 import android.widget.ImageView;
 
 import com.ooftf.hihttp.R;
-import com.ooftf.hihttp.action.weak.WeakAction;
-import com.ooftf.hihttp.action.weak.WeakConsumer;
+import com.ooftf.hihttp.action.weak.LifeAction;
+import com.ooftf.hihttp.action.weak.LifeConsumer;
 import com.ooftf.support.MaterialProgressDrawable;
 
 import io.reactivex.Observable;
@@ -34,15 +34,15 @@ public class ImageViewAction<T> implements ObservableTransformer<T, T> {
     @Override
     public ObservableSource<T> apply(Observable<T> upstream) {
         return upstream
-                .doOnSubscribe(new WeakConsumer<>(disposable -> {
+                .doOnSubscribe(new LifeConsumer<>(disposable -> {
                     temp = view.getDrawable();
                     progressDrawable.start();
                     view.setImageDrawable(progressDrawable);
-                }))
-                .doOnTerminate(new WeakAction(() -> {
+                }, view))
+                .doOnTerminate(new LifeAction(() -> {
                     progressDrawable.stop();
                     view.setImageDrawable(temp);
-                }));
+                }, view));
     }
 
     /**

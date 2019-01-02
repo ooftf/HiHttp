@@ -8,10 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import com.ooftf.hihttp.R
-import com.ooftf.hihttp.action.weak.WeakAction
-import com.ooftf.hihttp.action.weak.WeakConsumer
-import io.reactivex.Observable
-import io.reactivex.ObservableSource
+import com.ooftf.hihttp.action.weak.LifeAction
+import com.ooftf.hihttp.action.weak.LifeConsumer
 import io.reactivex.ObservableTransformer
 import kotlinx.android.synthetic.main.layout_error.view.*
 import kotlinx.android.synthetic.main.layout_start.view.*
@@ -27,15 +25,15 @@ open class ActionLayout : FrameLayout {
     fun <T> getAction(): ObservableTransformer<T, T> {
         return ObservableTransformer { observable ->
             observable
-                    .doOnSubscribe (WeakConsumer {
+                    .doOnSubscribe(LifeConsumer({
                         toLoadingView()
-                    })
-                    .doOnError(WeakConsumer{
+                    }, this))
+                    .doOnError(LifeConsumer({
                         toErrorView()
-                    })
-                    .doOnComplete(WeakAction {
+                    }, this))
+                    .doOnComplete(LifeAction({
                         toSuccessView()
-                    })
+                    }, this))
         }
     }
 

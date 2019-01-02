@@ -28,7 +28,7 @@ publish {
     userOrg = 'ooftf'      // bintray注册的用户名
     groupId = 'com.ooftf'
     artifactId = 'hi-http'// bintray创建的package
-    publishVersion = '3.5.0'
+    publishVersion = '3.5.1'
     desc = 'nothing'
     bintrayUser = 'ooftf'
     bintrayKey = bintray_key
@@ -49,5 +49,5 @@ dependencies {
     api 'com.github.ooftf:Support:1.1.1'
     implementation 'com.github.ooftf:progress-drawable:1.2.0'
     implementation 'com.orhanobut:logger:2.2.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
 }

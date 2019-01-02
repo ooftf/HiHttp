@@ -7,8 +7,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 
 import com.ooftf.hihttp.R;
-import com.ooftf.hihttp.action.weak.WeakAction;
-import com.ooftf.hihttp.action.weak.WeakConsumer;
+import com.ooftf.hihttp.action.weak.LifeAction;
+import com.ooftf.hihttp.action.weak.LifeConsumer;
 import com.ooftf.support.MaterialProgressDrawable;
 
 import io.reactivex.ObservableTransformer;
@@ -41,17 +41,17 @@ public class ActionImageView extends AppCompatImageView {
     public <T> ObservableTransformer<T, T> getAction() {
         return upstream ->
                 upstream
-                        .doOnSubscribe(new WeakConsumer<>(disposable -> {
+                        .doOnSubscribe(new LifeConsumer<>(disposable -> {
                             initial = getDrawable();
                             getProgressDrawable().start();
                             setImageDrawable(getProgressDrawable());
                             setEnabled(false);
-                        }))
-                        .doOnTerminate(new WeakAction(() -> {
+                        },this))
+                        .doOnTerminate(new LifeAction(() -> {
                             setImageDrawable(initial);
                             setEnabled(true);
                             getProgressDrawable().stop();
-                        }));
+                        },this));
     }
 
     MaterialProgressDrawable progress;
