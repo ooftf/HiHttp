@@ -10,7 +10,9 @@ import android.widget.Button
 import com.ooftf.hihttp.action.weak.LifeAction
 import com.ooftf.hihttp.action.weak.LifeConsumer
 import com.ooftf.support.MaterialProgressDrawable
+import io.reactivex.Completable
 import io.reactivex.ObservableTransformer
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 /**
  *
@@ -24,16 +26,22 @@ class ActionButton : Button {
         return ObservableTransformer { observable ->
             observable
                     .doOnSubscribe(LifeConsumer({
-                        initialLeft = compoundDrawables[0]
-                        initialText = text.toString()
-                        setDrawableLeft(loadingDrawable)
-                        text = message
-                        isEnabled = false
+                        Completable.complete().observeOn(AndroidSchedulers.mainThread()).subscribe {
+                            initialLeft = compoundDrawables[0]
+                            initialText = text.toString()
+                            setDrawableLeft(loadingDrawable)
+                            text = message
+                            isEnabled = false
+                        }
+
                     }, this))
                     .doOnTerminate(LifeAction({
-                        isEnabled = true
-                        setDrawableLeft(initialLeft)
-                        text = initialText
+                        Completable.complete().observeOn(AndroidSchedulers.mainThread()).subscribe {
+                            isEnabled = true
+                            setDrawableLeft(initialLeft)
+                            text = initialText
+                        }
+
                     }, this))
         }
     }

@@ -10,9 +10,11 @@ import com.ooftf.hihttp.action.weak.LifeAction;
 import com.ooftf.hihttp.action.weak.LifeConsumer;
 import com.ooftf.support.MaterialProgressDrawable;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * @author ooftf
@@ -35,13 +37,19 @@ public class ImageViewAction<T> implements ObservableTransformer<T, T> {
     public ObservableSource<T> apply(Observable<T> upstream) {
         return upstream
                 .doOnSubscribe(new LifeConsumer<>(disposable -> {
-                    temp = view.getDrawable();
-                    progressDrawable.start();
-                    view.setImageDrawable(progressDrawable);
+                    Completable.complete().observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
+                        temp = view.getDrawable();
+                        progressDrawable.start();
+                        view.setImageDrawable(progressDrawable);
+                    });
+
                 }, view))
                 .doOnTerminate(new LifeAction(() -> {
-                    progressDrawable.stop();
-                    view.setImageDrawable(temp);
+                    Completable.complete().observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
+                        progressDrawable.stop();
+                        view.setImageDrawable(temp);
+                    });
+
                 }, view));
     }
 

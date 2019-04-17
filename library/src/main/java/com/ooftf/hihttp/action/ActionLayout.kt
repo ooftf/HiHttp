@@ -10,7 +10,9 @@ import android.widget.FrameLayout
 import com.ooftf.hihttp.R
 import com.ooftf.hihttp.action.weak.LifeAction
 import com.ooftf.hihttp.action.weak.LifeConsumer
+import io.reactivex.Completable
 import io.reactivex.ObservableTransformer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.layout_error.view.*
 import kotlinx.android.synthetic.main.layout_start.view.*
 
@@ -26,13 +28,21 @@ open class ActionLayout : FrameLayout {
         return ObservableTransformer { observable ->
             observable
                     .doOnSubscribe(LifeConsumer({
-                        toLoadingView()
+                        Completable.complete().observeOn(AndroidSchedulers.mainThread()).subscribe {
+                            toLoadingView()
+                        }
+
                     }, this))
                     .doOnError(LifeConsumer({
-                        toErrorView()
+                        Completable.complete().observeOn(AndroidSchedulers.mainThread()).subscribe {
+                            toErrorView()
+                        }
+
                     }, this))
                     .doOnComplete(LifeAction({
-                        toSuccessView()
+                        Completable.complete().observeOn(AndroidSchedulers.mainThread()).subscribe {
+                            toSuccessView()
+                        }
                     }, this))
         }
     }

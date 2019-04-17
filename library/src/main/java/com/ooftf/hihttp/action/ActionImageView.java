@@ -11,7 +11,10 @@ import com.ooftf.hihttp.action.weak.LifeAction;
 import com.ooftf.hihttp.action.weak.LifeConsumer;
 import com.ooftf.support.MaterialProgressDrawable;
 
+import io.reactivex.Completable;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
 
 /**
  * @author ooftf
@@ -42,15 +45,19 @@ public class ActionImageView extends AppCompatImageView {
         return upstream ->
                 upstream
                         .doOnSubscribe(new LifeConsumer<>(disposable -> {
-                            initial = getDrawable();
-                            getProgressDrawable().start();
-                            setImageDrawable(getProgressDrawable());
-                            setEnabled(false);
+                            Completable.complete().observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
+                                initial = getDrawable();
+                                getProgressDrawable().start();
+                                setImageDrawable(getProgressDrawable());
+                                setEnabled(false);
+                            });
                         },this))
                         .doOnTerminate(new LifeAction(() -> {
-                            setImageDrawable(initial);
-                            setEnabled(true);
-                            getProgressDrawable().stop();
+                            Completable.complete().observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
+                                setImageDrawable(initial);
+                                setEnabled(true);
+                                getProgressDrawable().stop();
+                            });
                         },this));
     }
 

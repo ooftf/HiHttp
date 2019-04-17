@@ -7,9 +7,11 @@ import com.ooftf.hihttp.action.weak.LifeAction;
 import com.ooftf.hihttp.action.weak.LifeConsumer;
 import com.ooftf.progress.GradualHorizontalProgressDrawable;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * @author ooftf
@@ -40,18 +42,23 @@ public class ButtonAction<T> implements ObservableTransformer<T, T> {
     public ObservableSource<T> apply(Observable<T> upstream) {
         return upstream
                 .doOnSubscribe(new LifeConsumer<>(disposable -> {
-                    tempDrawables = view.getCompoundDrawables();
-                    tempText = view.getText();
-                    progressDrawable.start();
-                    view.setCompoundDrawablesWithIntrinsicBounds(tempDrawables[0], tempDrawables[1], tempDrawables[2], progressDrawable);
-                    view.setText(progressText);
-                    view.setEnabled(false);
+                    Completable.complete().observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
+                        tempDrawables = view.getCompoundDrawables();
+                        tempText = view.getText();
+                        progressDrawable.start();
+                        view.setCompoundDrawablesWithIntrinsicBounds(tempDrawables[0], tempDrawables[1], tempDrawables[2], progressDrawable);
+                        view.setText(progressText);
+                        view.setEnabled(false);
+                    });
+
                 },view))
                 .doOnTerminate(new LifeAction(() -> {
-                    view.setText(tempText);
-                    view.setCompoundDrawablesWithIntrinsicBounds(tempDrawables[0], tempDrawables[1], tempDrawables[2], tempDrawables[3]);
-                    progressDrawable.stop();
-                    view.setEnabled(true);
+                    Completable.complete().observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
+                        view.setText(tempText);
+                        view.setCompoundDrawablesWithIntrinsicBounds(tempDrawables[0], tempDrawables[1], tempDrawables[2], tempDrawables[3]);
+                        progressDrawable.stop();
+                        view.setEnabled(true);
+                    });
                 },view));
     }
 }
