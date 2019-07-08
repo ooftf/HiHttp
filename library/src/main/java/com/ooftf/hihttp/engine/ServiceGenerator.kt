@@ -14,7 +14,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
-import java.util.concurrent.TimeUnit
 import javax.net.ssl.*
 
 
@@ -26,9 +25,10 @@ import javax.net.ssl.*
  * @date 2018/9/27 0027
  */
 open class ServiceGenerator {
-    var baseUrl: String = ""
+    var baseUrl: String? = null
     var ignoreSSL: Boolean = false
     var loggable: Boolean = false
+    var keepCookie: Boolean = false
     var buildOkhttp: ((OkHttpClient.Builder) -> Unit)? = null
     private val headers: MutableMap<String, String> = HashMap()
     private fun createLogInterceptor(): Interceptor {
@@ -81,26 +81,32 @@ open class ServiceGenerator {
 
     private fun createOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
-                .cookieJar(KeepCookieJar())
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
+        if (keepCookie) {
+            builder.cookieJar(KeepCookieJar())
+        }
         if (ignoreSSL) {
             builder.hostnameVerifier(createIgnoreHostnameVerifier())
                     .sslSocketFactory(createIgnoreSSLSocketFactory())
         }
+        if (loggable) {
+            builder.addInterceptor(createLogInterceptor())
+        }
         buildOkhttp?.invoke(builder)
-        builder.addInterceptor(createLogInterceptor())
         return builder.build()
     }
 
-    private fun createRetrofit() =
-            Retrofit.Builder()
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-                    .client(createOkHttpClient())
-                    .build()
+    private fun createRetrofit(): Retrofit {
+        var builder = Retrofit.Builder()
+        baseUrl?.let {
+            builder.baseUrl(it)
+        }
+        builder
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .client(createOkHttpClient())
+        return builder.build()
+    }
+
 
     fun addHeader(key: String, value: String) {
         headers[key] = value
