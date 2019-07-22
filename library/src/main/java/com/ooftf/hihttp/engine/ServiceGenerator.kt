@@ -30,7 +30,6 @@ open class ServiceGenerator {
     var loggable: Boolean = false
     var keepCookie: Boolean = false
     var buildOkhttp: ((OkHttpClient.Builder) -> Unit)? = null
-    private val headers: MutableMap<String, String> = HashMap()
     private fun createLogInterceptor(): Interceptor {
         val formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
@@ -107,10 +106,6 @@ open class ServiceGenerator {
         return builder.build()
     }
 
-
-    fun addHeader(key: String, value: String) {
-        headers[key] = value
-    }
 
     fun <T> createService(cla: Class<T>) = createRetrofit().create(cla)
 }

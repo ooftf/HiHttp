@@ -25,18 +25,25 @@ abstract class ParamInterceptor : Interceptor {
                 }
             }
             val newFormBody = buildNewFormBody(oldParams)
-            val newRequest = request.newBuilder().method(request.method(), newFormBody).build()
-            return chain.proceed(newRequest)
+            val newBuilder = request.newBuilder().method(request.method(), newFormBody)
+            getAddHeaders().forEach {
+                newBuilder.addHeader(it.key, it.value)
+            }
+            return chain.proceed(newBuilder.build())
         } else if (request.method().equals("GET", true)) {
             request.url().queryParameterNames()
             var params = getUrlParams(request.url())
             params = paramTransform(params)
             val newUrl = buildWithNewParams(request.url(), params)
-            val newRequest = request.newBuilder().url(newUrl).build()
-            return chain.proceed(newRequest)
+            val newBuilder = request.newBuilder().url(newUrl)
+            getAddHeaders().forEach {
+                newBuilder.addHeader(it.key, it.value)
+            }
+            return chain.proceed(newBuilder.build())
         }
         return chain.proceed(request)
     }
+
     private fun buildWithNewParams(url: HttpUrl, params: MutableMap<String, String>): HttpUrl {
         val newBuilder = url.newBuilder()
         url.queryParameterNames().forEach {
@@ -67,5 +74,9 @@ abstract class ParamInterceptor : Interceptor {
         }
         return builder.build()
     }
+
     abstract fun paramTransform(oldParams: MutableMap<String, String>): MutableMap<String, String>
+
+
+    abstract fun getAddHeaders(): Map<String, String>
 }
