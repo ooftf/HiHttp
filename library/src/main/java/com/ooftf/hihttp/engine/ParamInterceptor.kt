@@ -1,9 +1,6 @@
 package com.ooftf.hihttp.engine
 
-import okhttp3.FormBody
-import okhttp3.HttpUrl
-import okhttp3.Interceptor
-import okhttp3.Response
+import okhttp3.*
 
 /**
  *
@@ -17,15 +14,20 @@ abstract class ParamInterceptor : Interceptor {
         val request = chain.request()
         val body = request.body()
         if (request.method().equals("POST", ignoreCase = true)) {
-            val oldParams = HashMap<String, String>()
+            var newRequestBody: RequestBody?
+
             if (body is FormBody) {
+                val oldParams = HashMap<String, String>()
                 val formBody = body as FormBody?
                 for (i in 0 until formBody!!.size()) {
-                    oldParams.put(formBody.name(i), formBody.value(i))
+                    oldParams[formBody.name(i)] = formBody.value(i)
                 }
+                val newFormBody = buildNewFormBody(oldParams)
+                newRequestBody = newFormBody
+            } else {
+                newRequestBody = body
             }
-            val newFormBody = buildNewFormBody(oldParams)
-            val newBuilder = request.newBuilder().method(request.method(), newFormBody)
+            val newBuilder = request.newBuilder().method(request.method(), newRequestBody)
             getAddHeaders().forEach {
                 newBuilder.addHeader(it.key, it.value)
             }
