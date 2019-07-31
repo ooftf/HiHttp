@@ -1,13 +1,13 @@
-package com.ooftf.hihttp.action;
+package com.ooftf.hihttp.ui.action;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
-import com.ooftf.hihttp.R;
-import com.ooftf.hihttp.action.weak.LifeAction;
-import com.ooftf.hihttp.action.weak.LifeConsumer;
+import com.ooftf.hihttp.ui.R;
+import com.ooftf.hihttp.ui.action.weak.LifeAction;
+import com.ooftf.hihttp.ui.action.weak.LifeConsumer;
 import com.ooftf.support.MaterialProgressDrawable;
 
 import io.reactivex.Completable;

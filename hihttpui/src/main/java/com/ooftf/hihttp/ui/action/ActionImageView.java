@@ -1,4 +1,4 @@
-package com.ooftf.hihttp.action;
+package com.ooftf.hihttp.ui.action;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -6,15 +6,14 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
-import com.ooftf.hihttp.R;
-import com.ooftf.hihttp.action.weak.LifeAction;
-import com.ooftf.hihttp.action.weak.LifeConsumer;
+import com.ooftf.hihttp.ui.R;
+import com.ooftf.hihttp.ui.action.weak.LifeAction;
+import com.ooftf.hihttp.ui.action.weak.LifeConsumer;
 import com.ooftf.support.MaterialProgressDrawable;
 
 import io.reactivex.Completable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Action;
 
 /**
  * @author ooftf

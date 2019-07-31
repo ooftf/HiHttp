@@ -1,4 +1,4 @@
-package com.ooftf.hihttp;
+package com.ooftf.hihttp.ui;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;

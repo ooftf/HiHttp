@@ -1,4 +1,4 @@
-package com.ooftf.hihttp.action.weak;
+package com.ooftf.hihttp.ui.action.weak;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Lifecycle;

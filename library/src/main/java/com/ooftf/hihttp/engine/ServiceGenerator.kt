@@ -1,14 +1,7 @@
 package com.ooftf.hihttp.engine
 
-import android.text.TextUtils
-import com.orhanobut.logger.AndroidLogAdapter
-import com.orhanobut.logger.Logger
-import com.orhanobut.logger.PrettyFormatStrategy
 import io.reactivex.schedulers.Schedulers
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,34 +17,7 @@ import javax.net.ssl.*
  * @Email 994749769@qq.com
  * @date 2018/9/27 0027
  */
-open class ServiceGenerator {
-    var baseUrl: String? = null
-    var ignoreSSL: Boolean = false
-    var loggable: Boolean = false
-    var keepCookie: Boolean = false
-    var buildOkhttp: ((OkHttpClient.Builder) -> Unit)? = null
-    private fun createLogInterceptor(): Interceptor {
-        val formatStrategy = PrettyFormatStrategy.newBuilder()
-                .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
-                .methodCount(0)         // (Optional) How many method line to show. Default 2
-                .methodOffset(0)        // (Optional) Hides internal method calls up to offset. Default 5
-                .tag("OkHttp")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
-                .build()
-        Logger.addLogAdapter(AndroidLogAdapter(formatStrategy))
-        val logging = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
-            if (TextUtils.isEmpty(it)) {
-                return@Logger
-            }
-            try {
-                JSONObject(it)
-                Logger.json(it)
-            } catch (e: Exception) {
-                Logger.d(it)
-            }
-        })
-        logging.level = HttpLoggingInterceptor.Level.BODY
-        return logging
-    }
+open class ServiceGenerator internal constructor(private var baseUrl: String?,private var ignoreSSL: Boolean,private var keepCookie: Boolean, var buildOkhttp: ((OkHttpClient.Builder) -> Unit)?,private var buildRetrofit: ((Retrofit.Builder) -> Unit)?) {
 
     private fun createIgnoreSSLSocketFactory(): SSLSocketFactory {
         val ssl = SSLContext.getInstance("SSL")
@@ -72,11 +38,7 @@ open class ServiceGenerator {
         return ssl.socketFactory
     }
 
-    private fun createIgnoreHostnameVerifier() = object : HostnameVerifier {
-        override fun verify(p0: String?, p1: SSLSession?): Boolean {
-            return true
-        }
-    }
+    private fun createIgnoreHostnameVerifier() = HostnameVerifier { p0, p1 -> true }
 
     private fun createOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
@@ -86,9 +48,6 @@ open class ServiceGenerator {
         if (ignoreSSL) {
             builder.hostnameVerifier(createIgnoreHostnameVerifier())
                     .sslSocketFactory(createIgnoreSSLSocketFactory())
-        }
-        if (loggable) {
-            builder.addInterceptor(createLogInterceptor())
         }
         buildOkhttp?.invoke(builder)
         return builder.build()
@@ -103,6 +62,7 @@ open class ServiceGenerator {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .client(createOkHttpClient())
+        buildRetrofit?.invoke(builder)
         return builder.build()
     }
 

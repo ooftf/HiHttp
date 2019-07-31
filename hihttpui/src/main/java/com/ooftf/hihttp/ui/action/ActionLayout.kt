@@ -1,4 +1,4 @@
-package com.ooftf.hihttp.action
+package com.ooftf.hihttp.ui.action
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -7,9 +7,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import com.ooftf.hihttp.R
-import com.ooftf.hihttp.action.weak.LifeAction
-import com.ooftf.hihttp.action.weak.LifeConsumer
+import com.ooftf.hihttp.ui.R
+import com.ooftf.hihttp.ui.action.weak.LifeAction
+import com.ooftf.hihttp.ui.action.weak.LifeConsumer
 import io.reactivex.Completable
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers

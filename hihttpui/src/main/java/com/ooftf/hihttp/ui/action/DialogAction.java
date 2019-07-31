@@ -1,10 +1,9 @@
-package com.ooftf.hihttp.action;
+package com.ooftf.hihttp.ui.action;
 
 import android.app.ProgressDialog;
 import android.support.v4.app.SupportActivity;
-
-import com.ooftf.hihttp.action.weak.LifeAction;
-import com.ooftf.hihttp.action.weak.LifeConsumer;
+import com.ooftf.hihttp.ui.action.weak.LifeAction;
+import com.ooftf.hihttp.ui.action.weak.LifeConsumer;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;

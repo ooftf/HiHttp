@@ -27,8 +27,8 @@ publish {
     repoName = 'maven'
     userOrg = 'ooftf'      // bintray注册的用户名
     groupId = 'com.ooftf'
-    artifactId = 'hi-http'// bintray创建的package
-    publishVersion = '4.0.0'
+    artifactId = 'hi-http-ui'// bintray创建的package
+    publishVersion = '1.0.0'
     desc = 'nothing'
     bintrayUser = 'ooftf'
     bintrayKey = bintray_key
@@ -42,8 +42,9 @@ tasks.withType(Javadoc) {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
-    api 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
     api 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    api 'com.squareup.retrofit2:converter-gson:2.4.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    api 'com.github.ooftf:Support:1.1.1'
+    implementation 'com.github.ooftf:progress-drawable:1.2.0'
+
 }

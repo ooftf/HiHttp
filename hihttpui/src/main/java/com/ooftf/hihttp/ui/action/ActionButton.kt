@@ -1,4 +1,4 @@
-package com.ooftf.hihttp.action
+package com.ooftf.hihttp.ui.action
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -7,8 +7,8 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
 import android.widget.Button
-import com.ooftf.hihttp.action.weak.LifeAction
-import com.ooftf.hihttp.action.weak.LifeConsumer
+import com.ooftf.hihttp.ui.action.weak.LifeAction
+import com.ooftf.hihttp.ui.action.weak.LifeConsumer
 import com.ooftf.support.MaterialProgressDrawable
 import io.reactivex.Completable
 import io.reactivex.ObservableTransformer

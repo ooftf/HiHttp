@@ -1,10 +1,10 @@
-package com.ooftf.hihttp.action;
+package com.ooftf.hihttp.ui.action;
 
 import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
-import com.ooftf.hihttp.action.weak.LifeAction;
-import com.ooftf.hihttp.action.weak.LifeConsumer;
+import com.ooftf.hihttp.ui.action.weak.LifeAction;
+import com.ooftf.hihttp.ui.action.weak.LifeConsumer;
 import com.ooftf.progress.GradualHorizontalProgressDrawable;
 
 import io.reactivex.Completable;
