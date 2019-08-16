@@ -13,9 +13,16 @@ abstract class ParamInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val body = request.body()
-        if (request.method().equals("POST", ignoreCase = true)) {
-            var newRequestBody: RequestBody?
+        val newBuilder = request.newBuilder()
 
+        if (request.method().equals("GET", true)) {
+            request.url().queryParameterNames()
+            var params = getUrlParams(request.url())
+            params = paramTransform(params)
+            val newUrl = buildWithNewParams(request.url(), params)
+            newBuilder.url(newUrl)
+        } else {
+            var newRequestBody: RequestBody?
             if (body is FormBody) {
                 val oldParams = HashMap<String, String>()
                 val formBody = body as FormBody?
@@ -27,23 +34,12 @@ abstract class ParamInterceptor : Interceptor {
             } else {
                 newRequestBody = body
             }
-            val newBuilder = request.newBuilder().method(request.method(), newRequestBody)
-            getAddHeaders().forEach {
-                newBuilder.addHeader(it.key, it.value)
-            }
-            return chain.proceed(newBuilder.build())
-        } else if (request.method().equals("GET", true)) {
-            request.url().queryParameterNames()
-            var params = getUrlParams(request.url())
-            params = paramTransform(params)
-            val newUrl = buildWithNewParams(request.url(), params)
-            val newBuilder = request.newBuilder().url(newUrl)
-            getAddHeaders().forEach {
-                newBuilder.addHeader(it.key, it.value)
-            }
-            return chain.proceed(newBuilder.build())
+            newBuilder.method(request.method(), newRequestBody)
         }
-        return chain.proceed(request)
+        getAddHeaders().forEach {
+            newBuilder.addHeader(it.key, it.value)
+        }
+        return chain.proceed(newBuilder.build())
     }
 
     private fun buildWithNewParams(url: HttpUrl, params: MutableMap<String, String>): HttpUrl {
