@@ -28,7 +28,7 @@ publish {
     userOrg = 'ooftf'      // bintray注册的用户名
     groupId = 'com.ooftf'
     artifactId = 'hi-http'// bintray创建的package
-    publishVersion = '4.0.1'
+    publishVersion = '4.0.2'
     desc = 'nothing'
     bintrayUser = 'ooftf'
     bintrayKey = bintray_key
