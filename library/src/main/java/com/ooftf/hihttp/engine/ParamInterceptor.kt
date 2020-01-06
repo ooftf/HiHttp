@@ -1,6 +1,7 @@
 package com.ooftf.hihttp.engine
 
 import okhttp3.*
+import kotlin.collections.LinkedHashMap
 
 /**
  *
@@ -14,29 +15,29 @@ abstract class ParamInterceptor : Interceptor {
         val request = chain.request()
         val body = request.body()
         val newBuilder = request.newBuilder()
-
+        var params:MutableMap<String,String>? = null
         if (request.method().equals("GET", true)) {
             request.url().queryParameterNames()
-            var params = getUrlParams(request.url())
+            params = getUrlParams(request.url())
             params = paramTransform(params)
             val newUrl = buildWithNewParams(request.url(), params)
             newBuilder.url(newUrl)
         } else {
             var newRequestBody: RequestBody?
             if (body is FormBody) {
-                val oldParams = HashMap<String, String>()
+                params = LinkedHashMap()
                 val formBody = body as FormBody?
                 for (i in 0 until formBody!!.size()) {
-                    oldParams[formBody.name(i)] = formBody.value(i)
+                    params[formBody.name(i)] = formBody.value(i)
                 }
-                val newFormBody = buildNewFormBody(oldParams)
+                val newFormBody = buildNewFormBody(params)
                 newRequestBody = newFormBody
             } else {
                 newRequestBody = body
             }
             newBuilder.method(request.method(), newRequestBody)
         }
-        getAddHeaders().forEach {
+        getAddHeaders(params).forEach {
             newBuilder.addHeader(it.key, it.value)
         }
         return chain.proceed(newBuilder.build())
@@ -54,17 +55,17 @@ abstract class ParamInterceptor : Interceptor {
     }
 
     private fun getUrlParams(url: HttpUrl): MutableMap<String, String> {
-        var result = HashMap<String, String>()
+        var result = LinkedHashMap<String, String>()
         url.queryParameterNames().forEach {
             var value = url.queryParameter(it)
             if (value != null) {
-                result.put(it, value)
+                result[it] = value
             }
         }
         return result
     }
 
-    internal fun buildNewFormBody(oldParams: MutableMap<String, String>): FormBody {
+    private fun buildNewFormBody(oldParams: MutableMap<String, String>): FormBody {
         var newParams = paramTransform(oldParams)
         val builder = FormBody.Builder()
         for ((key, value) in newParams) {
@@ -76,5 +77,5 @@ abstract class ParamInterceptor : Interceptor {
     abstract fun paramTransform(oldParams: MutableMap<String, String>): MutableMap<String, String>
 
 
-    abstract fun getAddHeaders(): Map<String, String>
+    abstract fun getAddHeaders(params: MutableMap<String, String>?): Map<String, String>
 }
