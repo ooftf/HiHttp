@@ -4,6 +4,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.security.SecureRandom
@@ -55,7 +56,7 @@ open class ServiceGenerator internal constructor(private var baseUrl: String?, p
     }
 
     private fun createRetrofit(): Retrofit {
-        var builder = Retrofit.Builder()
+        val builder = Retrofit.Builder()
         baseUrl?.let {
             builder.baseUrl(it)
         }
@@ -63,6 +64,7 @@ open class ServiceGenerator internal constructor(private var baseUrl: String?, p
                 .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.createWithScheduler(io.reactivex.rxjava3.schedulers.Schedulers.io()))
                 .client(createOkHttpClient())
         buildRetrofit?.invoke(builder)
         return builder.build()
