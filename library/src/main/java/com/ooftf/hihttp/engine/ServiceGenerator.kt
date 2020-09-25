@@ -7,9 +7,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import java.security.SecureRandom
-import java.security.cert.X509Certificate
-import javax.net.ssl.*
+import javax.net.ssl.HostnameVerifier
 
 
 /**
@@ -19,37 +17,20 @@ import javax.net.ssl.*
  * @Email 994749769@qq.com
  * @date 2018/9/27 0027
  */
-open class ServiceGenerator internal constructor(private var baseUrl: String?, private var ignoreSSL: Boolean, private var keepCookie: Boolean, var buildOkhttp: ((OkHttpClient.Builder) -> Unit)?, private var buildRetrofit: ((Retrofit.Builder) -> Unit)?) {
-
-    private fun createIgnoreSSLSocketFactory(): SSLSocketFactory {
-        val ssl = SSLContext.getInstance("SSL")
-        val xtm = object : X509TrustManager {
-            override fun checkClientTrusted(p0: Array<out X509Certificate>?, p1: String?) {
-
-            }
-
-            override fun checkServerTrusted(p0: Array<out X509Certificate>?, p1: String?) {
-
-            }
-
-            override fun getAcceptedIssuers(): Array<X509Certificate> {
-                return arrayOf()
-            }
-        }
-        ssl.init(null, arrayOf<TrustManager>(xtm), SecureRandom())
-        return ssl.socketFactory
-    }
+open class ServiceGenerator
+internal constructor(private var baseUrl: String?, private var ignoreSSL: Boolean, private var keepCookie: Boolean, var buildOkhttp: ((OkHttpClient.Builder) -> Unit)?, private var buildRetrofit: ((Retrofit.Builder) -> Unit)?) {
 
     private fun createIgnoreHostnameVerifier() = HostnameVerifier { p0, p1 -> true }
-
     private fun createOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
         if (keepCookie) {
             builder.cookieJar(KeepCookieJar())
         }
         if (ignoreSSL) {
-            builder.hostnameVerifier(createIgnoreHostnameVerifier())
-                    .sslSocketFactory(createIgnoreSSLSocketFactory())
+            OkHttpHelper.createX509TrustManager().let {
+                builder.hostnameVerifier(createIgnoreHostnameVerifier())
+                        .sslSocketFactory(OkHttpHelper.createIgnoreSSLSocketFactory(it), it)
+            }
         }
         buildOkhttp?.invoke(builder)
         return builder.build()
@@ -70,6 +51,6 @@ open class ServiceGenerator internal constructor(private var baseUrl: String?, p
         return builder.build()
     }
 
-
     fun <T> createService(cla: Class<T>) = createRetrofit().create(cla)
+
 }

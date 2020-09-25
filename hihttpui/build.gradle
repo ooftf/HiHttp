@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.panpf.bintray-publish'
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -31,6 +32,7 @@ publish {
     publishVersion = '1.0.0'
     desc = 'nothing'
     bintrayUser = 'ooftf'
+    website = 'nothing'
     bintrayKey = bintray_key
     dryRun = false
 }

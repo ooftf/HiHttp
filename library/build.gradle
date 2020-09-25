@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.panpf.bintray-publish'
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -28,10 +29,11 @@ publish {
     userOrg = 'ooftf'      // bintray注册的用户名
     groupId = 'com.ooftf'
     artifactId = 'hi-http'// bintray创建的package
-    publishVersion = '4.2.1'
+    publishVersion = '4.2.2-local-1'
     desc = 'nothing'
     bintrayUser = 'ooftf'
     bintrayKey = bintray_key
+    website = 'nothing'
     dryRun = false
 }
 tasks.withType(Javadoc) {

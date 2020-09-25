@@ -13,7 +13,7 @@ class ServiceGeneratorBuilder {
     private var baseUrl: String? = null
     private var ignoreSSL: Boolean = false
     private var keepCookie: Boolean = false
-    private var buildOkhttp: ((OkHttpClient.Builder) -> Unit)? = null
+    private var buildOkHttp: ((OkHttpClient.Builder) -> Unit)? = null
     private var buildRetrofit: ((Retrofit.Builder) -> Unit)? = null
     fun setBaseUrl(baseUrl: String): ServiceGeneratorBuilder {
         this.baseUrl = baseUrl
@@ -25,13 +25,13 @@ class ServiceGeneratorBuilder {
         return this
     }
 
-    fun setkeepCookie(keepCookie: Boolean): ServiceGeneratorBuilder {
+    fun setKeepCookie(keepCookie: Boolean): ServiceGeneratorBuilder {
         this.keepCookie = keepCookie
         return this
     }
 
-    fun setBuildOkhttp(buildOkhttp: ((OkHttpClient.Builder) -> Unit)): ServiceGeneratorBuilder {
-        this.buildOkhttp = buildOkhttp
+    fun setBuildOkHttp(buildOkHttp: ((OkHttpClient.Builder) -> Unit)): ServiceGeneratorBuilder {
+        this.buildOkHttp = buildOkHttp
         return this
     }
 
@@ -41,6 +41,6 @@ class ServiceGeneratorBuilder {
     }
 
     fun build(): ServiceGenerator {
-        return ServiceGenerator(baseUrl, ignoreSSL, keepCookie, buildOkhttp, buildRetrofit)
+        return ServiceGenerator(baseUrl, ignoreSSL, keepCookie, buildOkHttp, buildRetrofit)
     }
 }
