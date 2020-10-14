@@ -49,6 +49,7 @@ abstract class ParamInterceptor2 : Interceptor {
                     if (requestBody?.contentType()?.subtype == "json") {
                         val newBuilder = request.newBuilder()
                         val buffer = Buffer()
+                        requestBody.writeTo(buffer)
                         val postJsonBody = postJsonBody(buffer.readByteString().utf8(), getHeader(request))
                         val newRequestBody = object : RequestBody() {
                             override fun contentType(): MediaType? {

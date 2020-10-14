@@ -34,6 +34,7 @@ publish {
     bintrayKey = bintray_key
     website = 'nothing'
     dryRun = false
+    override = true
 }
 tasks.withType(Javadoc) {
     options.addStringOption('Xdoclint:none', '-quiet')
