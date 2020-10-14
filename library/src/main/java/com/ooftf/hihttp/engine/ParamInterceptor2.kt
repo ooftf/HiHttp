@@ -16,7 +16,7 @@ abstract class ParamInterceptor2 : Interceptor {
         val request = chain.request()
         val rw = RequestWrapper(request)
         // GET请求
-        if (request.method.equals("GET", true)) {
+        if (rw.isGet()) {
             val newBuilder = request.newBuilder()
             //params = paramTransform(getUrlParams(request.url))
             val get = get(rw)
