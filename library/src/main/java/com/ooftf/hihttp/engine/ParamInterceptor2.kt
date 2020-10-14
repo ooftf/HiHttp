@@ -1,7 +1,6 @@
 package com.ooftf.hihttp.engine
 
 import okhttp3.*
-import okio.Buffer
 import okio.BufferedSink
 
 /**
@@ -15,11 +14,12 @@ import okio.BufferedSink
 abstract class ParamInterceptor2 : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
+        val rw = RequestWrapper(request)
         // GET请求
         if (request.method.equals("GET", true)) {
             val newBuilder = request.newBuilder()
             //params = paramTransform(getUrlParams(request.url))
-            val get = get(getUrlParams(request.url), getHeader(request))
+            val get = get(rw)
             val newUrl = buildWithNewParams(request.url, get.param)
             newBuilder.url(newUrl)
             get.header.forEach {
@@ -30,7 +30,7 @@ abstract class ParamInterceptor2 : Interceptor {
             when (val requestBody = request.body) {
                 is FormBody -> {
                     val newBuilder = request.newBuilder()
-                    val postFormBody = postFormBody(getFormBodyParam(requestBody), getHeader(request))
+                    val postFormBody = postFormBody(rw)
                     val builder = FormBody.Builder()
                     postFormBody.param.forEach {
                         builder.add(it.key, it.value)
@@ -43,17 +43,15 @@ abstract class ParamInterceptor2 : Interceptor {
                     return chain.proceed(newBuilder.build())
                 }
                 is MultipartBody -> {
-                    return chain.proceed(postMutableBody(request))
+                    return chain.proceed(postMutableBody(rw))
                 }
                 else -> {
-                    if (requestBody?.contentType()?.subtype == "json") {
+                    if (rw.isJsonBody()) {
                         val newBuilder = request.newBuilder()
-                        val buffer = Buffer()
-                        requestBody.writeTo(buffer)
-                        val postJsonBody = postJsonBody(buffer.readByteString().utf8(), getHeader(request))
+                        val postJsonBody = postJsonBody(rw)
                         val newRequestBody = object : RequestBody() {
                             override fun contentType(): MediaType? {
-                                return requestBody.contentType()
+                                return requestBody?.contentType()
                             }
 
                             override fun writeTo(sink: BufferedSink) {
@@ -66,7 +64,7 @@ abstract class ParamInterceptor2 : Interceptor {
                         }
                         return chain.proceed(newBuilder.build())
                     } else {
-                        return chain.proceed(postOtherBody(request))
+                        return chain.proceed(postOtherBody(rw))
                     }
 
                 }
@@ -85,40 +83,11 @@ abstract class ParamInterceptor2 : Interceptor {
         return newBuilder.build()
     }
 
-    fun getFormBodyParam(body: FormBody): MutableMap<String, String> {
-        val result = LinkedHashMap<String, String>()
-        for (i in 0 until body.size) {
-            result[body.name(i)] = body.value(i)
-        }
-        return result
-    }
-
-    private fun getUrlParams(url: HttpUrl): MutableMap<String, String> {
-        var result = LinkedHashMap<String, String>()
-        url.queryParameterNames.forEach {
-            var value = url.queryParameter(it)
-            if (value != null) {
-                result[it] = value
-            }
-        }
-        return result
-    }
-
-    private fun getHeader(request: Request): HashMap<String, String> {
-        val header = HashMap<String, String>()
-        request.headers.forEach {
-            header[it.first] = it.second
-        }
-        return header
-    }
-
-    abstract fun get(oldParams: MutableMap<String, String>, oldHeader: MutableMap<String, String>): ParamAndHeader
-    abstract fun postFormBody(oldParams: MutableMap<String, String>, oldHeader: MutableMap<String, String>): ParamAndHeader
-    abstract fun postJsonBody(jsonString: String, oldHeader: MutableMap<String, String>): JsonParamAndHeader
-    abstract fun postMutableBody(request: Request): Request
-    abstract fun postOtherBody(request: Request): Request
-
-
+    abstract fun get(rw: RequestWrapper): ParamAndHeader
+    abstract fun postFormBody(rw: RequestWrapper): ParamAndHeader
+    abstract fun postJsonBody(rw: RequestWrapper): JsonParamAndHeader
+    abstract fun postMutableBody(rw: RequestWrapper): Request
+    abstract fun postOtherBody(rw: RequestWrapper): Request
 }
 
 class ParamAndHeader(var param: MutableMap<String, String> = HashMap(),
