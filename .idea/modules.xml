@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HiHttp.iml" filepath="$PROJECT_DIR$/HiHttp.iml" group="HiHttp" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="HiHttp/app" />
-      <module fileurl="file://$PROJECT_DIR$/hihttpui/hihttpui.iml" filepath="$PROJECT_DIR$/hihttpui/hihttpui.iml" group="HiHttp/hihttpui" />
-      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" group="HiHttp/library" />
+      <module fileurl="file://$PROJECT_DIR$/HiHttp.iml" filepath="$PROJECT_DIR$/HiHttp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/HiHttp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/HiHttp.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hihttpui/HiHttp.hihttpui.iml" filepath="$PROJECT_DIR$/.idea/modules/hihttpui/HiHttp.hihttpui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/HiHttp.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/HiHttp.library.iml" />
     </modules>
   </component>
 </project>
