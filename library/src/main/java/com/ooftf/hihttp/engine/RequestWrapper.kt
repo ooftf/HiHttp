@@ -42,6 +42,7 @@ class RequestWrapper(val request: Request) {
     fun getHttpUrl(): HttpUrl {
         return request.url
     }
+
     fun getUrl(): String {
         return request.url.toString()
     }
@@ -92,6 +93,13 @@ class RequestWrapper(val request: Request) {
         }
         val newRequestBody = builder.build()
         this.method(request.method, newRequestBody)
+        return this
+    }
+
+    fun Request.Builder.setHeader(header: Map<String, String>): Request.Builder  {
+        header.forEach {
+            this.header(it.key, it.value)
+        }
         return this
     }
 
