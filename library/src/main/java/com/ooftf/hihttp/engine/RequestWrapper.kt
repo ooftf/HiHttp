@@ -39,6 +39,13 @@ class RequestWrapper(val request: Request) {
         return result
     }
 
+    fun getHttpUrl(): HttpUrl {
+        return request.url
+    }
+    fun getUrl(): String {
+        return request.url.toString()
+    }
+
     fun isGet(): Boolean {
         return request.method.equals("GET", true)
     }
