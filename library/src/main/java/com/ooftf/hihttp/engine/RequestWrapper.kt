@@ -1,9 +1,8 @@
 package com.ooftf.hihttp.engine
 
-import okhttp3.FormBody
-import okhttp3.MultipartBody
-import okhttp3.Request
+import okhttp3.*
 import okio.Buffer
+import okio.BufferedSink
 
 /**
  *
@@ -11,7 +10,7 @@ import okio.Buffer
  * @email 994749769@qq.com
  * @date 2020/10/14
  */
-class RequestWrapper(val request: Request)  {
+class RequestWrapper(val request: Request) {
     fun getHeader(): HashMap<String, String> {
         val header = HashMap<String, String>()
         request.headers.forEach {
@@ -62,4 +61,44 @@ class RequestWrapper(val request: Request)  {
         return buffer.readByteString().utf8()
     }
 
+
+    fun newRequestBuild(): Request.Builder {
+        return request.newBuilder()
+    }
+
+    fun Request.Builder.setUrlParam(param: Map<String, String>): Request.Builder {
+        val newBuilder = request.url.newBuilder()
+        request.url.queryParameterNames.forEach {
+            newBuilder.removeAllQueryParameters(it)
+        }
+        param.forEach {
+            newBuilder.addQueryParameter(it.key, it.value)
+        }
+        this.url(newBuilder.build())
+        return this
+    }
+
+    fun Request.Builder.setFormBody(param: Map<String, String>): Request.Builder {
+        val builder = FormBody.Builder()
+        param.forEach {
+            builder.add(it.key, it.value)
+        }
+        val newRequestBody = builder.build()
+        this.method(request.method, newRequestBody)
+        return this
+    }
+
+    fun Request.Builder.setJsonBody(jsonBody: String): Request.Builder {
+        val newRequestBody = object : RequestBody() {
+            override fun contentType(): MediaType? {
+                return request.body?.contentType()
+            }
+
+            override fun writeTo(sink: BufferedSink) {
+                sink.buffer.writeUtf8(jsonBody)
+            }
+        }
+        this.method(request.method, newRequestBody)
+        return this
+    }
 }
