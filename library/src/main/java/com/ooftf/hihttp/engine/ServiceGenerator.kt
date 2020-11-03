@@ -18,7 +18,12 @@ import javax.net.ssl.HostnameVerifier
  * @date 2018/9/27 0027
  */
 open class ServiceGenerator
-internal constructor(private var baseUrl: String?, private var ignoreSSL: Boolean, private var keepCookie: Boolean, var buildOkhttp: ((OkHttpClient.Builder) -> Unit)?, private var buildRetrofit: ((Retrofit.Builder) -> Unit)?) {
+internal constructor(private var baseUrl: String?,
+                     private var ignoreSSL: Boolean,
+                     private var keepCookie: Boolean,
+                     var buildOkhttp: ((OkHttpClient.Builder) -> Unit)?,
+                     private var buildRetrofit: ((Retrofit.Builder) -> Unit)?,
+                     private var jsonConverterFactory: retrofit2.Converter.Factory?) {
 
     private fun createIgnoreHostnameVerifier() = HostnameVerifier { p0, p1 -> true }
     private fun createOkHttpClient(): OkHttpClient {
@@ -42,7 +47,7 @@ internal constructor(private var baseUrl: String?, private var ignoreSSL: Boolea
             builder.baseUrl(it)
         }
         builder
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(jsonConverterFactory ?: GsonConverterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.createWithScheduler(io.reactivex.rxjava3.schedulers.Schedulers.io()))

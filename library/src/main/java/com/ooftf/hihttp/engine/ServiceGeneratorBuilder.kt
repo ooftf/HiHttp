@@ -15,6 +15,7 @@ class ServiceGeneratorBuilder {
     private var keepCookie: Boolean = false
     private var buildOkHttp: ((OkHttpClient.Builder) -> Unit)? = null
     private var buildRetrofit: ((Retrofit.Builder) -> Unit)? = null
+    private var jsonConverterFactory: retrofit2.Converter.Factory? = null
     fun setBaseUrl(baseUrl: String): ServiceGeneratorBuilder {
         this.baseUrl = baseUrl
         return this
@@ -40,7 +41,11 @@ class ServiceGeneratorBuilder {
         return this
     }
 
+    fun setJsonConverterFactory(converterFactory: retrofit2.Converter.Factory) {
+        jsonConverterFactory = converterFactory
+    }
+
     fun build(): ServiceGenerator {
-        return ServiceGenerator(baseUrl, ignoreSSL, keepCookie, buildOkHttp, buildRetrofit)
+        return ServiceGenerator(baseUrl, ignoreSSL, keepCookie, buildOkHttp, buildRetrofit, jsonConverterFactory)
     }
 }
