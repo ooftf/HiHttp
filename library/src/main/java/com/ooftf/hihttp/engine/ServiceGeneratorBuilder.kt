@@ -41,8 +41,9 @@ class ServiceGeneratorBuilder {
         return this
     }
 
-    fun setJsonConverterFactory(converterFactory: retrofit2.Converter.Factory) {
+    fun setJsonConverterFactory(converterFactory: retrofit2.Converter.Factory): ServiceGeneratorBuilder {
         jsonConverterFactory = converterFactory
+        return this
     }
 
     fun build(): ServiceGenerator {
