@@ -5,7 +5,7 @@ buildscript {
     properties.load( inputStream )
     ext.bintray_key = properties.getProperty('bintrayKey')
     ext.versions = [
-            'kotlin'     : '1.4.10',
+            'kotlin'     : '1.4.20',
             'java'       : JavaVersion.VERSION_1_8
     ]
     repositories {
@@ -15,7 +15,7 @@ buildscript {
         maven { url 'https://dl.bintray.com/ooftf/maven' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath 'com.ooftf:bintray-release:0.9.4'
     }
