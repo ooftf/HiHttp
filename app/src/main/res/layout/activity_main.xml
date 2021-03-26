@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ooftf.hihttp.ui.action.ActionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/responseLayout"
@@ -17,18 +17,5 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:text="Sign In!" />
-
-        <com.ooftf.hihttp.ui.action.ActionButton
-            android:id="@+id/commit"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="get Banner" />
-
-        <com.ooftf.hihttp.action.ActionImageView
-            android:id="@+id/progressImage"
-            android:src="@mipmap/ic_launcher"
-            android:scaleType="centerCrop"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
     </LinearLayout>
-</com.ooftf.hihttp.ui.action.ActionLayout>
+</LinearLayout>
