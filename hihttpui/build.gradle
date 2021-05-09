@@ -6,62 +6,35 @@ buildscript{
         maven { url 'https://dl.bintray.com/ooftf/maven' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
-          classpath 'com.ooftf:bintray-release:0.9.4'
-       // classpath 'com.ooftf:OPlugin:0.0.3'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.github.ooftf:ooftf-maven:1.0.3'
     }
 }
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'ooftf-publish'
-apply plugin: 'com.novoda.bintray-release'
-//apply plugin: 'com.github.panpf.bintray-publish'
+apply plugin: 'ooftf-maven'
 android {
-    compileSdkVersion 26
+    compileSdkVersion 30
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 26
+        minSdkVersion 16
+        targetSdkVersion 30
     }
     compileOptions {
         sourceCompatibility versions.java
         targetCompatibility versions.java
     }
 }
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
 
-artifacts {
-    archives sourcesJar
-}
 sourceCompatibility = "7"
 targetCompatibility = "7"
 publish {
-    repoName = 'maven'
-    userOrg = 'ooftf'      // bintray注册的用户名
-    groupId = 'com.ooftf'
     artifactId = 'hi-http-ui'// bintray创建的package
-    publishVersion = '1.0.0-local'
-    desc = 'nothing'
-    bintrayUser = 'ooftf'
-    website = 'nothing'
-    bintrayKey = bintray_key
-    dryRun = false
-}
-tasks.withType(Javadoc) {
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.addStringOption('encoding', 'UTF-8')
-    options.addStringOption('charSet', 'UTF-8')
+    version = '1.0.0-local'
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
     api 'com.github.ooftf:Support:1.1.1'
     implementation 'com.github.ooftf:progress-drawable:1.2.0'

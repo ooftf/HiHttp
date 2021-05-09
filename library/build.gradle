@@ -1,45 +1,23 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'ooftf-maven'
 android {
-    compileSdkVersion 26
+    compileSdkVersion 30
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 26
+        minSdkVersion 16
+        targetSdkVersion 30
     }
     compileOptions {
         sourceCompatibility versions.java
         targetCompatibility versions.java
     }
 }
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
 
-artifacts {
-    archives sourcesJar
-}
 sourceCompatibility = "7"
 targetCompatibility = "7"
 publish {
-    repoName = 'maven'
-    userOrg = 'ooftf'      // bintray注册的用户名
-    groupId = 'com.ooftf'
     artifactId = 'hi-http'// bintray创建的package
-    publishVersion = '4.2.6'
-    desc = 'nothing'
-    bintrayUser = 'ooftf'
-    bintrayKey = bintray_key
-    website = 'nothing'
-    dryRun = false
-    override = true
-}
-tasks.withType(Javadoc) {
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.addStringOption('encoding', 'UTF-8')
-    options.addStringOption('charSet', 'UTF-8')
+    version = '4.2.6'
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -51,5 +29,5 @@ dependencies {
     api 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     api 'com.squareup.retrofit2:converter-gson:2.9.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
-    api 'com.squareup.okhttp3:okhttp:4.9.0'
+    api 'com.squareup.okhttp3:okhttp:4.9.1'
 }
