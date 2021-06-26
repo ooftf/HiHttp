@@ -60,8 +60,8 @@ class ProgressRequestBody(
 
 
 fun File.asProgressRequestBody(
-        mediaType: MediaType? = URLConnection.guessContentTypeFromName(absolutePath)
-                .toMediaTypeOrNull(), listener: (total: Long, size: Long, increment: Long) -> Unit
+        mediaType: MediaType? = URLConnection.guessContentTypeFromName(absolutePath)?.toMediaTypeOrNull(),
+        listener: (total: Long, size: Long, increment: Long) -> Unit
 ): ProgressRequestBody {
     return ProgressRequestBody(
             asRequestBody(mediaType),

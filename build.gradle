@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.versions = [
-            'kotlin': '1.4.32',
+            'kotlin': '1.5.10',
             'java'  : JavaVersion.VERSION_1_8
     ]
     repositories {
@@ -12,9 +12,9 @@ buildscript {
         maven { url 'https://dl.bintray.com/ooftf/maven' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0'
+        classpath 'com.android.tools.build:gradle:4.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
-        classpath 'com.github.ooftf:ooftf-maven:1.0.3'
+        classpath 'com.github.ooftf:ooftf-maven:1.0.4'
     }
 }
 

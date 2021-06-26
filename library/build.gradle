@@ -17,7 +17,7 @@ sourceCompatibility = "7"
 targetCompatibility = "7"
 publish {
     artifactId = 'hi-http'// bintray创建的package
-    version = '4.2.6'
+    version = '4.2.7'
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
